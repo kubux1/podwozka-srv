@@ -51,6 +51,8 @@ jboss/server/minimal/work/**/*
 
 .idea/
 *.iml
+*.ipr
+*.iws
 
 # Gradle
 .idea/**/gradle.xml
