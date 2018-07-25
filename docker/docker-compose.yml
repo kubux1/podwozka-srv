@@ -1,0 +1,17 @@
+version: '2'
+services:
+    pd-mysql:
+        container_name: pd-mysql-demo
+        extends:
+            file: mysql.yml
+            service: podwoozka-mysql
+    pd-app:
+        container_name: pd-app-demo
+        image: podwoozka-srv
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:mysql://pd-mysql:3306/podwoozka?useUnicode=true&characterEncoding=utf8&useSSL=false
+        depends_on:
+            - pd-mysql
+        ports:
+            - 8080:8080
+            - 9990:9990

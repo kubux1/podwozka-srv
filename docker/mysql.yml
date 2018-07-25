@@ -1,0 +1,15 @@
+version: '2'
+services:
+    podwoozka-mysql:
+        image: mysql:5.7.20
+        volumes:
+             - ~/volumes/podwoozka/podwoozka-srv/mysql/:/var/lib/mysql/
+        environment:
+            - MYSQL_HOST=localhost
+            - MYSQL_PORT=3306
+            - MYSQL_ALLOW_EMPTY_PASSWORD=no
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=podwoozka
+        ports:
+            - 3306:3306
+        command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp --default-authentication-plugin=mysql_native_password
