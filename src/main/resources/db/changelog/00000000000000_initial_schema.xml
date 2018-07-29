@@ -16,7 +16,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="login" type="varchar(50)">
-                <constraints unique="true" nullable="false" uniqueConstraintName="travel_user_login"/>
+                <constraints nullable="false" />
             </column>
             <column name="start_place" type="text">
                 <constraints nullable="false" />

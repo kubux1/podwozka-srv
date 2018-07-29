@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -31,7 +32,7 @@ public class Travel implements Serializable {
 
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(length = 50, unique = true, nullable = false)
+    @Column(length = 50, nullable = false)
     private String login;
 
     @JsonIgnore
@@ -51,6 +52,12 @@ public class Travel implements Serializable {
     @Size(max = 50)
     @Column(name = "last_name", length = 50)
     private String lastName;
+
+    @Column(name = "passengers_count")
+    private Long passengersCount;
+
+    @Column(name = "pick_up_datetime")
+    private Timestamp pickUpDatetime;
 
     @Override
     public boolean equals(Object o) {

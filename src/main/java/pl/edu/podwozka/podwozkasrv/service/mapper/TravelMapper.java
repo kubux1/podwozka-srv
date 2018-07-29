@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.podwozka.podwozkasrv.domain.Travel;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,23 +27,25 @@ public class TravelMapper {
                 .collect(Collectors.toList());
     }
 
-    public Travel travelDTOToTravel(TravelDTO userDTO) {
-        if (userDTO == null) {
+    public Travel travelDTOToTravel(TravelDTO travelDTO) {
+        if (travelDTO == null) {
             return null;
         } else {
             Travel travel = new Travel();
-            travel.setId(userDTO.getId());
-            travel.setStartPlace(userDTO.getStartPlace());
-            travel.setEndPlace(userDTO.getEndPlace());
-            travel.setLogin(userDTO.getLogin());
-            travel.setFirstName(userDTO.getFirstName());
-            travel.setLastName(userDTO.getLastName());
+            travel.setId(travelDTO.getId());
+            travel.setStartPlace(travelDTO.getStartPlace());
+            travel.setEndPlace(travelDTO.getEndPlace());
+            travel.setLogin(travelDTO.getLogin());
+            travel.setFirstName(travelDTO.getFirstName());
+            travel.setLastName(travelDTO.getLastName());
+            travel.setPassengersCount(travelDTO.getPassengersCount());
+            travel.setPickUpDatetime(Timestamp.valueOf(travelDTO.getPickUpDatetime()));
             return travel;
         }
     }
 
-    public List<Travel> travelDTOsToTravels(List<TravelDTO> userDTOs) {
-        return userDTOs.stream()
+    public List<Travel> travelDTOsToTravels(List<TravelDTO> travelDTOs) {
+        return travelDTOs.stream()
                 .filter(Objects::nonNull)
                 .map(this::travelDTOToTravel)
                 .collect(Collectors.toList());
