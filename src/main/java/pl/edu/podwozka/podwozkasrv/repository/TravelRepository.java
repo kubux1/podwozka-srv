@@ -16,7 +16,7 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
 
     Travel findOneById(Long id);
 
-    void deleteById(Long id);
+    void deleteOneById(Long id);
 
     void deleteByLogin(String login);
 }

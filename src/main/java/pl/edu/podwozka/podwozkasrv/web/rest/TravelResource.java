@@ -77,9 +77,15 @@ public class TravelResource {
     @PutMapping("/travels")
     public ResponseEntity<TravelDTO> updateTravel(@Valid @RequestBody TravelDTO travelDTO) {
         log.debug("REST request to update Travel : {}", travelDTO);
-        TravelDTO updatedTravel = travelService.save(travelDTO);
 
-        return updatedTravel != null ? ResponseEntity.ok(updatedTravel) : ResponseEntity.notFound().build();
+        TravelDTO updatedTravel = travelService.findOne(travelDTO.getId());
+        if (updatedTravel == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        updatedTravel = travelService.save(travelDTO);
+
+        return ResponseEntity.ok(updatedTravel);
     }
 
     /**

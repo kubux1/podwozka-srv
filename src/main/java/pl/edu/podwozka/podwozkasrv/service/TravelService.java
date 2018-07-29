@@ -77,7 +77,9 @@ public class TravelService {
     @Transactional(readOnly = true)
     public TravelDTO findOne(Long id) {
         log.debug("Request to get Travel : {}", id);
-        return new TravelDTO(travelRepository.findOneById(id));
+        Travel travel = travelRepository.findOneById(id);
+
+        return (travel != null) ? new TravelDTO(travelRepository.findOneById(id)) : null;
     }
 
     /**
@@ -87,6 +89,6 @@ public class TravelService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Travel : {}", id);
-        travelRepository.deleteById(id);
+        travelRepository.deleteOneById(id);
     }
 }
