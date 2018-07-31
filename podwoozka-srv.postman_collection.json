@@ -1,0 +1,140 @@
+{
+	"variables": [],
+	"info": {
+		"name": "podwoozka-srv",
+		"_postman_id": "e71de3e4-51f4-f01c-9e36-9b025312dfd6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "travel",
+			"description": "",
+			"item": [
+				{
+					"name": "travel_id_1",
+					"request": {
+						"url": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"login\": \"bartekChanged\",\n  \"startPlace\": \"DomChanged\",\n  \"endPlace\": \"Czyis DomChanged\",\n  \"firstName\": \"MaciejChanged\",\n  \"lastName\": \"TopolaChanged\",\n  \"passengersCount\": 3,\n  \"pickUpDatetime\": \"2018-03-16T13:56:39.492\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "travel",
+					"request": {
+						"url": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": null,\n  \"login\": \"bartek\",\n  \"startPlace\": \"Dom\",\n  \"endPlace\": \"Czyis Dom\",\n  \"firstName\": \"Maciej\",\n  \"lastName\": \"Topola\",\n  \"passengersCount\": 1,\n  \"pickUpDatetime\": \"2016-03-16T13:56:39.492\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "travel_id_1",
+					"request": {
+						"url": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "travel_id_1",
+					"request": {
+						"url": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels/delete/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "travelsByLogin",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels/?login=bartek&size=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"podwozka-srv-0.0.1-SNAPSHOT",
+								"api",
+								"travels",
+								""
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": "bartek",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -56,6 +56,19 @@ public class TravelService {
     }
 
     /**
+     * Get all the travels by login.
+     *
+     * @param pageable the pagination information
+     * @param login of the owner
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<TravelDTO> findAllByLogin(Pageable pageable, String login) {
+        log.debug("Request to get all travels");
+        return travelRepository.findAllByLogin(pageable, login).map(TravelDTO::new);
+    }
+
+    /**
      * Get one travel by id.
      *
      * @param id the id of the entity
@@ -64,19 +77,9 @@ public class TravelService {
     @Transactional(readOnly = true)
     public TravelDTO findOne(Long id) {
         log.debug("Request to get Travel : {}", id);
-        return new TravelDTO(travelRepository.findOneById(id));
-    }
+        Travel travel = travelRepository.findOneById(id);
 
-    /**
-     * Get one travel by id.
-     *
-     * @param login the id of the entity
-     * @return the entity
-     */
-    @Transactional(readOnly = true)
-    public TravelDTO findOneByLogin(String login) {
-        log.debug("Request to get Travel : {}", login);
-        return new TravelDTO(travelRepository.findOneByLogin(login));
+        return (travel != null) ? new TravelDTO(travelRepository.findOneById(id)) : null;
     }
 
     /**
@@ -86,16 +89,6 @@ public class TravelService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Travel : {}", id);
-        travelRepository.deleteById(id);
-    }
-
-    /**
-     * Delete the travel by login.
-     *
-     * @param login the id of the entity
-     */
-    public void deleteByLogin(String login) {
-        log.debug("Request to delete Travel : {}", login);
-        travelRepository.deleteByLogin(login);
+        travelRepository.deleteOneById(id);
     }
 }

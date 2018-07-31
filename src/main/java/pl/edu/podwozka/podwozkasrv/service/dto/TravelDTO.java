@@ -8,8 +8,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import pl.edu.podwozka.podwozkasrv.domain.Travel;
 
 import javax.persistence.Column;
-import javax.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class TravelDTO {
 
     @NotBlank
     @Size(min = 1, max = 50)
-    @Column(length = 50, unique = true, nullable = false)
+    @Column(length = 50, nullable = false)
     private String login;
 
     @NotBlank
@@ -35,6 +36,10 @@ public class TravelDTO {
     @Size(max = 50)
     private String lastName;
 
+    private Long passengersCount;
+
+    private LocalDateTime pickUpDatetime;
+
     public TravelDTO() {} // Empty constructor needed for Jackson.
 
     public TravelDTO(Travel travel) {
@@ -44,6 +49,8 @@ public class TravelDTO {
         this.endPlace = travel.getEndPlace();
         this.firstName = travel.getFirstName();
         this.lastName = travel.getLastName();
+        this.passengersCount = travel.getPassengersCount();
+        this.pickUpDatetime = travel.getPickUpDatetime().toLocalDateTime();
     }
 
     @Override
