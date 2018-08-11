@@ -1,4 +1,4 @@
-package pl.edu.podwozka.podwozkasrv;
+package pl.edu.podwozka.podwozkasrv.example;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -8,6 +8,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pl.edu.podwozka.podwozkasrv.example.Greeter;
+import pl.edu.podwozka.podwozkasrv.example.PhraseBuilder;
 
 import javax.inject.Inject;
 
@@ -16,7 +18,7 @@ public class GreeterTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Greeter.class)
+                .addClasses(Greeter.class, PhraseBuilder.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
@@ -24,9 +26,9 @@ public class GreeterTest {
     Greeter greeter;
 
     @Test
-    public void greet() throws Exception {
-        String name="Arquillian";
-        Assert.assertEquals("Hello, Arquillian!", greeter.createGreeting(name));
-        greeter.greet(System.out, name);
+    public void should_create_greeting() {
+        Assert.assertEquals("Hello, Earthling!",
+                greeter.createGreeting("Earthling"));
+        greeter.greet(System.out, "Earthling");
     }
 }
