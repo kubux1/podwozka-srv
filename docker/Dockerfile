@@ -1,22 +1,9 @@
-FROM jboss/wildfly:13.0.0.Final
+FROM tomcat:8.5.32-jre8-alpine
 
-# User root user to install software
-USER root
+# Deploy the app
+COPY target/podwozka-srv-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/podwozka-srv-0.0.1-SNAPSHOT.war
 
-COPY target/podwozka-srv-0.0.1-SNAPSHOT.war /opt/jboss/wildfly/standalone/deployments/podwozka-srv-0.0.1-SNAPSHOT.war
-
-# Switch back to jboss user
-USER jboss
-
-# Add a management user named 'admin'
-# Remove this line before application deploy
-RUN /opt/jboss/wildfly/bin/add-user.sh -u admin -p admin --silent
-
-# Expose an application port
-EXPOSE 8080
-# Debug port
-EXPOSE 8787
-
-# Start WildFly in standalone/debug mode and allow management from host
-# Remove this line before application deploy
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-c", "standalone.xml", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "--debug"]
+# Remove line below in order to disable debug configuration
+ENV JPDA_ADDRESS 5005
+CMD ["catalina.sh", "jpda", "run"]
+EXPOSE 5005
