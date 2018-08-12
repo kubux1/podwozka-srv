@@ -1,0 +1,33 @@
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    liquibase:
+        change-log: classpath:db/liquibase-changelog.xml
+    datasource:
+        url: jdbc:mysql://localhost:3306/podwoozka?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
+        username: root
+        password: password
+    application:
+        name: podwozkaSrvApplication
+    jpa:
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5Dialect
+        show-sql: true
+        open-in-view: false
+        hibernate:
+            # Set to none if the liquibase is enabled.
+            ddl-auto: none
+            naming:
+                physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+                implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+
+# ===================================================================
+# Application specific properties
+# ===================================================================
+
+# application:
