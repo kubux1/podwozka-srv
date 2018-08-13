@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "podwoozka-srv",
-		"_postman_id": "e71de3e4-51f4-f01c-9e36-9b025312dfd6",
+		"_postman_id": "bb9c14cb-39b3-299c-d3b5-3e484df1916e",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 				{
 					"name": "travel_id_1",
 					"request": {
-						"url": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels",
+						"url": "http://localhost:8080/api/travels",
 						"method": "PUT",
 						"header": [
 							{
@@ -34,7 +34,7 @@
 				{
 					"name": "travel",
 					"request": {
-						"url": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels",
+						"url": "http://localhost:8080/api/travels",
 						"method": "POST",
 						"header": [
 							{
@@ -54,7 +54,7 @@
 				{
 					"name": "travel_id_1",
 					"request": {
-						"url": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels/1",
+						"url": "http://localhost:8080/api/travels/15",
 						"method": "GET",
 						"header": [
 							{
@@ -76,7 +76,7 @@
 				{
 					"name": "travel_id_1",
 					"request": {
-						"url": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels/delete/1",
+						"url": "http://localhost:8080/api/travels/delete/14",
 						"method": "DELETE",
 						"header": [],
 						"body": {},
@@ -88,14 +88,13 @@
 					"name": "travelsByLogin",
 					"request": {
 						"url": {
-							"raw": "http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/api/travels/?login=bartek&size=10",
+							"raw": "http://localhost:8080/api/travels/?login=bartek&size=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"podwozka-srv-0.0.1-SNAPSHOT",
 								"api",
 								"travels",
 								""
