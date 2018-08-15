@@ -3,6 +3,7 @@ package pl.edu.podwozka.podwozkasrv.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
@@ -16,6 +17,7 @@ public final class Constants {
     public static ObjectMapper getDefaultObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.setDateFormat(new StdDateFormat());
 
         JavaTimeModule module = new JavaTimeModule();
         mapper.registerModule(module);
