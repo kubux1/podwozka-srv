@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import pl.edu.podwozka.podwozkasrv.domain.Travel;
 
 import javax.persistence.Column;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -62,4 +62,5 @@ public class TravelDTO {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
+
 }
