@@ -21,7 +21,7 @@ import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
 import pl.edu.podwozka.podwozkasrv.web.rest.util.HeaderUtil;
 import pl.edu.podwozka.podwozkasrv.web.rest.util.PaginationUtil;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -50,14 +50,14 @@ public class TravelResource {
      * @param travelDTO the travel to create
      * @return the ResponseEntity with status 201 (Created) and with body the new travel
      * @throws URISyntaxException if the Location URI syntax is incorrect
-     * @return the ResponseEntity with status 409 (CONFLICT) if the travel has an id
+     * @return the ResponseEntity with status 400 (BAD REQUEST) if the travel has an id
      */
     @PostMapping("/travels")
     public ResponseEntity<TravelDTO> createTravel(@Valid @RequestBody TravelDTO travelDTO) throws URISyntaxException {
         log.debug("REST request to save Travel : {}", travelDTO);
 
         if (travelDTO.getId() != null) {
-            return ResponseEntity.status(CONFLICT).build();
+            return ResponseEntity.status(BAD_REQUEST).build();
         } else {
             TravelDTO newTravel = travelService.save(travelDTO);
             return ResponseEntity.created(new URI("/api/travels/" + newTravel.getId()))
