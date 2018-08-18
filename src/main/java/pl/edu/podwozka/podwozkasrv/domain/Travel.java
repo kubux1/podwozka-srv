@@ -17,14 +17,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Getter
 @Setter
 @ToString
 @Entity
 @Table(name = "travel")
-public class Travel implements Serializable {
+public class Travel extends AbstractAuditingEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,7 +57,7 @@ public class Travel implements Serializable {
     private Long passengersCount;
 
     @Column(name = "pick_up_datetime")
-    private Timestamp pickUpDatetime;
+    private Instant pickUpDatetime;
 
     @Override
     public boolean equals(Object o) {

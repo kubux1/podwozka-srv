@@ -11,22 +11,83 @@
     <property name="autoIncrement" value="true"/>
 
     <changeSet id="00000000000001" author="wojtekbu">
-        <createTable tableName="travel">
+        <createTable tableName="pd_user">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="login" type="varchar(50)">
-                <constraints nullable="false" />
+                <constraints unique="true" nullable="false" uniqueConstraintName="ux_user_login"/>
             </column>
-            <column name="start_place" type="text">
-                <constraints nullable="false" />
-            </column>
-            <column name="end_place" type="text">
+            <column name="password_hash" type="varchar(60)">
                 <constraints nullable="false" />
             </column>
             <column name="first_name" type="varchar(50)"/>
             <column name="last_name" type="varchar(50)"/>
+            <column name="email" type="varchar(254)">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_user_email"/>
+            </column>
+            <column name="image_url" type="varchar(256)"/>
+            <column name="activated" type="boolean" valueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+            <column name="lang_key" type="varchar(6)"/>
+            <column name="activation_key" type="varchar(20)"/>
+            <column name="reset_key" type="varchar(20)"/>
+            <column name="reset_date" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <!-- AbstractAuditingEntity's columns -->
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="timestamp"/>
         </createTable>
 
+        <createTable tableName="pd_authority">
+            <column name="name" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="pd_user_authority">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authority_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="user_id, authority_name" tableName="pd_user_authority"/>
+
+        <addForeignKeyConstraint baseColumnNames="authority_name"
+                                 baseTableName="pd_user_authority"
+                                 constraintName="fk_authority_name"
+                                 referencedColumnNames="name"
+                                 referencedTableName="pd_authority"/>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="pd_user_authority"
+                                 constraintName="fk_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="pd_user"/>
+
+        <loadData file="db/users.csv"
+                  separator=";"
+                  tableName="pd_user">
+            <column name="activated" type="boolean"/>
+            <column name="created_date" type="timestamp"/>
+        </loadData>
+        <loadData file="db/authorities.csv"
+                  separator=";"
+                  tableName="pd_authority"/>
+
+        <loadData file="db/users_authorities.csv"
+                  separator=";"
+                  tableName="pd_user_authority"/>
+
+        <!--<dropDefaultValue tableName="pd_user" columnName="created_date" columnDataType="datetime"/>-->
     </changeSet>
 </databaseChangeLog>

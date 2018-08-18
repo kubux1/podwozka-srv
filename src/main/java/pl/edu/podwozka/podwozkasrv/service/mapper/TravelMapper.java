@@ -3,9 +3,10 @@ package pl.edu.podwozka.podwozkasrv.service.mapper;
 import org.springframework.stereotype.Service;
 import pl.edu.podwozka.podwozkasrv.domain.Travel;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
+import pl.edu.podwozka.podwozkasrv.time.TimeUtil;
 
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +40,11 @@ public class TravelMapper {
             travel.setFirstName(travelDTO.getFirstName());
             travel.setLastName(travelDTO.getLastName());
             travel.setPassengersCount(travelDTO.getPassengersCount());
-            travel.setPickUpDatetime(Timestamp.valueOf(travelDTO.getPickUpDatetime()));
+            travel.setPickUpDatetime(TimeUtil.localDateTimeToInstant(travelDTO.getPickUpDatetime()));
+            travel.setCreatedBy(travelDTO.getCreatedBy());
+            travel.setCreatedDate(travelDTO.getCreatedDate());
+            travel.setLastModifiedBy(travelDTO.getLastModifiedBy());
+            travel.setLastModifiedDate(travelDTO.getLastModifiedDate());
             return travel;
         }
     }

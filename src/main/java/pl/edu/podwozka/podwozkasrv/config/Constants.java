@@ -6,12 +6,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import java.time.ZoneOffset;
+
 /**
  * Application constants.
  */
 public final class Constants {
 
-    // Regex for acceptable logins
     public static final String LOGIN_REGEX = "^[_'.@A-Za-z0-9-]*$";
 
     public static ObjectMapper getDefaultObjectMapper() {
@@ -24,6 +25,10 @@ public final class Constants {
 
         return mapper;
     }
+
+    public final static ZoneOffset defaultZoneOffset = ZoneOffset.UTC;
+
+    public static final String SYSTEM_ACCOUNT = "system";
 
     private Constants() {
     }

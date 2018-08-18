@@ -15,13 +15,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.podwozka.podwozkasrv.PodwozkaSrvApplication;
+import pl.edu.podwozka.podwozkasrv.config.Constants;
 import pl.edu.podwozka.podwozkasrv.domain.Travel;
 import pl.edu.podwozka.podwozkasrv.repository.TravelRepository;
 import pl.edu.podwozka.podwozkasrv.service.TravelService;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
 import pl.edu.podwozka.podwozkasrv.service.mapper.TravelMapper;
+import pl.edu.podwozka.podwozkasrv.time.TimeUtil;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -62,10 +64,10 @@ public class TravelResourceIntTest {
     private static final Long UPDATED_PASSENGERS_COUNT = 2L;
 
     private static final LocalDateTime DEFAULT_LOCAL_DATETIME = LocalDateTime.parse("2018-04-06T09:01:10");
-    private static final Timestamp DEFAULT_TIMESTAMP = Timestamp.valueOf(DEFAULT_LOCAL_DATETIME);
+    private static final Instant DEFAULT_INSTANT = TimeUtil.localDateTimeToInstant(DEFAULT_LOCAL_DATETIME);
 
     private static final LocalDateTime UPDATED_LOCAL_DATETIME = LocalDateTime.parse("2008-04-10T10:10:10");
-    private static final Timestamp UPDATED_TIMESTAMP = Timestamp.valueOf(UPDATED_LOCAL_DATETIME);
+    private static final Instant UPDATED_INSTANT = TimeUtil.localDateTimeToInstant(UPDATED_LOCAL_DATETIME);
 
     @Autowired
     private TravelRepository travelRepository;
@@ -114,7 +116,10 @@ public class TravelResourceIntTest {
         travel.setFirstName(DEFAULT_FIRSTNAME);
         travel.setLastName(DEFAULT_LASTNAME);
         travel.setPassengersCount(DEFAULT_PASSENGERS_COUNT);
-        travel.setPickUpDatetime(DEFAULT_TIMESTAMP);
+        travel.setPickUpDatetime(DEFAULT_INSTANT);
+
+        travel.setCreatedBy(Constants.SYSTEM_ACCOUNT);
+
         return travel;
     }
 
@@ -140,7 +145,7 @@ public class TravelResourceIntTest {
         assertThat(testTravel.getStartPlace()).isEqualTo(DEFAULT_START_PLACE);
         assertThat(testTravel.getEndPlace()).isEqualTo(DEFAULT_END_PLACE);
         assertThat(testTravel.getPassengersCount()).isEqualTo(DEFAULT_PASSENGERS_COUNT);
-        assertThat(testTravel.getPickUpDatetime()).isEqualTo(DEFAULT_TIMESTAMP);
+        assertThat(testTravel.getPickUpDatetime()).isEqualTo(DEFAULT_INSTANT);
     }
 
     @Test
@@ -247,7 +252,7 @@ public class TravelResourceIntTest {
         assertThat(testTravel.getFirstName()).isEqualTo(UPDATED_FIRSTNAME);
         assertThat(testTravel.getLastName()).isEqualTo(UPDATED_LASTNAME);
         assertThat(testTravel.getPassengersCount()).isEqualTo(UPDATED_PASSENGERS_COUNT);
-        assertThat(testTravel.getPickUpDatetime()).isEqualTo(UPDATED_TIMESTAMP);
+        assertThat(testTravel.getPickUpDatetime()).isEqualTo(UPDATED_INSTANT);
 
     }
 
@@ -297,7 +302,7 @@ public class TravelResourceIntTest {
         defaultTravel.setFirstName(DEFAULT_FIRSTNAME);
         defaultTravel.setLastName(DEFAULT_LASTNAME);
         defaultTravel.setPassengersCount(DEFAULT_PASSENGERS_COUNT);
-        defaultTravel.setPickUpDatetime(DEFAULT_TIMESTAMP);
+        defaultTravel.setPickUpDatetime(DEFAULT_INSTANT);
 
         TravelDTO travelDTO = travelMapper.travelToTravelDTO(defaultTravel);
 
@@ -330,6 +335,6 @@ public class TravelResourceIntTest {
         assertThat(travel.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
         assertThat(travel.getLastName()).isEqualTo(DEFAULT_LASTNAME);
         assertThat(travel.getPassengersCount()).isEqualTo(DEFAULT_PASSENGERS_COUNT);
-        assertThat(travel.getPickUpDatetime()).isEqualTo(DEFAULT_TIMESTAMP);
+        assertThat(travel.getPickUpDatetime()).isEqualTo(DEFAULT_INSTANT);
     }
 }
