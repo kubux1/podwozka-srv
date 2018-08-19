@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.podwozka.podwozkasrv.PodwozkaSrvApplication;
-import pl.edu.podwozka.podwozkasrv.config.Constants;
 import pl.edu.podwozka.podwozkasrv.domain.Travel;
 import pl.edu.podwozka.podwozkasrv.repository.TravelRepository;
 import pl.edu.podwozka.podwozkasrv.service.TravelService;
@@ -117,8 +116,6 @@ public class TravelResourceIntTest {
         travel.setLastName(DEFAULT_LASTNAME);
         travel.setPassengersCount(DEFAULT_PASSENGERS_COUNT);
         travel.setPickUpDatetime(DEFAULT_INSTANT);
-
-        travel.setCreatedBy(Constants.SYSTEM_ACCOUNT);
 
         return travel;
     }

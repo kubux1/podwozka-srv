@@ -87,7 +87,5 @@
         <loadData file="db/users_authorities.csv"
                   separator=";"
                   tableName="pd_user_authority"/>
-
-        <!--<dropDefaultValue tableName="pd_user" columnName="created_date" columnDataType="datetime"/>-->
     </changeSet>
 </databaseChangeLog>

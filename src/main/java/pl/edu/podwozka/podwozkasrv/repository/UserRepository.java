@@ -10,6 +10,8 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
+    Optional<User> findOneById(Long id);
+
     Optional<User> findOneByActivationKey(String activationKey);
 
     Optional<User> findOneByResetKey(String resetKey);

@@ -107,13 +107,14 @@ public class UserResourceIntTest {
     public static User createEntity() {
         User user = new User();
         user.setLogin(DEFAULT_LOGIN + RandomStringUtils.randomAlphabetic(5));
-        user.setPassword(RandomStringUtils.random(60));
+        user.setPassword(RandomStringUtils.randomAlphanumeric(60));
         user.setActivated(true);
         user.setEmail(RandomStringUtils.randomAlphabetic(5) + DEFAULT_EMAIL);
         user.setFirstName(DEFAULT_FIRSTNAME);
         user.setLastName(DEFAULT_LASTNAME);
         user.setImageUrl(DEFAULT_IMAGEURL);
         user.setLangKey(DEFAULT_LANGKEY);
+
         return user;
     }
 
@@ -267,12 +268,11 @@ public class UserResourceIntTest {
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
         // Update the user
-        User updatedUser = userRepository.findById(user.getId().toString()).get();
+        User updatedUser = userRepository.findOneById(user.getId()).get();
 
-        ManagedUserDTO managedUserDTO = new ManagedUserDTO();
+        UserDTO managedUserDTO = new UserDTO(user);
         managedUserDTO.setId(updatedUser.getId());
         managedUserDTO.setLogin(updatedUser.getLogin());
-        managedUserDTO.setPassword(UPDATED_PASSWORD);
         managedUserDTO.setFirstName(UPDATED_FIRSTNAME);
         managedUserDTO.setLastName(UPDATED_LASTNAME);
         managedUserDTO.setEmail(UPDATED_EMAIL);
@@ -418,7 +418,7 @@ public class UserResourceIntTest {
         assertThat(authorityA).isEqualTo(authorityA);
         assertThat(authorityA).isNotEqualTo(null);
         assertThat(authorityA).isNotEqualTo(new Object());
-        assertThat(authorityA.hashCode()).isEqualTo(0);
+        assertThat(authorityA.hashCode()).isNotNull();
         assertThat(authorityA.toString()).isNotNull();
 
         Authority authorityB = new Authority();
