@@ -62,7 +62,7 @@ public class UserResource {
      * @throws BadRequestException 400 (Bad Request) if the login or email is already in use
      */
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) throws URISyntaxException {
         log.debug("REST request to save User : {}", userDTO);
 
         if (userDTO.getId() != null) {

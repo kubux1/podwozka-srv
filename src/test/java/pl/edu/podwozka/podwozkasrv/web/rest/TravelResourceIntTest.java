@@ -21,6 +21,7 @@ import pl.edu.podwozka.podwozkasrv.service.TravelService;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
 import pl.edu.podwozka.podwozkasrv.service.mapper.TravelMapper;
 import pl.edu.podwozka.podwozkasrv.time.TimeUtil;
+import pl.edu.podwozka.podwozkasrv.web.rest.exception.ExceptionTranslator;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -81,6 +82,9 @@ public class TravelResourceIntTest {
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
     @Autowired
+    private ExceptionTranslator exceptionTranslator;
+
+    @Autowired
     @Qualifier("podwozkaJackson2HttpMessageConverter")
     private MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
 
@@ -96,6 +100,7 @@ public class TravelResourceIntTest {
                 .standaloneSetup(travelResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setMessageConverters(jackson2HttpMessageConverter)
+                .setControllerAdvice(exceptionTranslator)
                 .build();
 
         travel = createEntity();

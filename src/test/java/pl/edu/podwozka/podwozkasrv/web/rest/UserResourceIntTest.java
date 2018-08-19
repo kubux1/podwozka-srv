@@ -21,12 +21,11 @@ import pl.edu.podwozka.podwozkasrv.domain.User;
 import pl.edu.podwozka.podwozkasrv.repository.UserRepository;
 import pl.edu.podwozka.podwozkasrv.security.AuthoritiesConstants;
 import pl.edu.podwozka.podwozkasrv.service.UserService;
-import pl.edu.podwozka.podwozkasrv.service.dto.ManagedUserDTO;
 import pl.edu.podwozka.podwozkasrv.service.dto.UserDTO;
 import pl.edu.podwozka.podwozkasrv.service.mapper.UserMapper;
+import pl.edu.podwozka.podwozkasrv.web.rest.exception.ExceptionTranslator;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +48,8 @@ public class UserResourceIntTest {
     private static final String DEFAULT_LOGIN = "jan123";
     private static final String UPDATED_LOGIN = "janUpdated123";
 
+    private static final String DEFAULT_PASSWORD= RandomStringUtils.randomAlphanumeric(60);
+
     private static final Long DEFAULT_ID = 1L;
 
     private static final String DEFAULT_FIRSTNAME = "jan";
@@ -57,16 +58,8 @@ public class UserResourceIntTest {
     private static final String DEFAULT_LASTNAME = "kowal";
     private static final String UPDATED_LASTNAME = "kowalUpdated";
 
-    private static final String DEFAULT_PASSWORD = "mysecretpass";
-    private static final String UPDATED_PASSWORD = "UPDATEDmysecretpass";
-
     private static final String DEFAULT_EMAIL = "janPan@podwozka";
     private static final String UPDATED_EMAIL = "UPDATEDjanPan@podwozka";
-
-    private static final LocalDateTime DEFAULT_LOCAL_DATETIME = LocalDateTime.parse("2018-04-06T09:01:10");
-
-    private static final LocalDateTime UPDATED_LOCAL_DATETIME = LocalDateTime.parse("2008-04-10T10:10:10");
-
 
     private static final String DEFAULT_IMAGEURL = "http://podwozka.tam/50x50";
     private static final String UPDATED_IMAGEURL = "http://podwozka.tam/40x40";
@@ -90,6 +83,9 @@ public class UserResourceIntTest {
     @Autowired
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
+    @Autowired
+    private ExceptionTranslator exceptionTranslator;
+
     private MockMvc restUserMockMvc;
 
     private User user;
@@ -101,6 +97,7 @@ public class UserResourceIntTest {
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setMessageConverters(jacksonMessageConverter)
+                .setControllerAdvice(exceptionTranslator)
                 .build();
     }
 
@@ -131,20 +128,19 @@ public class UserResourceIntTest {
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
         // Create the User
-        ManagedUserDTO managedUserDTO = new ManagedUserDTO();
-        managedUserDTO.setLogin(DEFAULT_LOGIN);
-        managedUserDTO.setPassword(DEFAULT_PASSWORD);
-        managedUserDTO.setFirstName(DEFAULT_FIRSTNAME);
-        managedUserDTO.setLastName(DEFAULT_LASTNAME);
-        managedUserDTO.setEmail(DEFAULT_EMAIL);
-        managedUserDTO.setActivated(true);
-        managedUserDTO.setImageUrl(DEFAULT_IMAGEURL);
-        managedUserDTO.setLangKey(DEFAULT_LANGKEY);
-        managedUserDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setLogin(DEFAULT_LOGIN);
+        userDTO.setFirstName(DEFAULT_FIRSTNAME);
+        userDTO.setLastName(DEFAULT_LASTNAME);
+        userDTO.setEmail(DEFAULT_EMAIL);
+        userDTO.setActivated(true);
+        userDTO.setImageUrl(DEFAULT_IMAGEURL);
+        userDTO.setLangKey(DEFAULT_LANGKEY);
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc.perform(post("/api/users")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(managedUserDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
                 .andExpect(status().isCreated());
 
         // Validate the User in the database
@@ -164,22 +160,21 @@ public class UserResourceIntTest {
     public void createUserWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-        ManagedUserDTO managedUserDTO = new ManagedUserDTO();
-        managedUserDTO.setId(1L);
-        managedUserDTO.setLogin(DEFAULT_LOGIN);
-        managedUserDTO.setPassword(DEFAULT_PASSWORD);
-        managedUserDTO.setFirstName(DEFAULT_FIRSTNAME);
-        managedUserDTO.setLastName(DEFAULT_LASTNAME);
-        managedUserDTO.setEmail(DEFAULT_EMAIL);
-        managedUserDTO.setActivated(true);
-        managedUserDTO.setImageUrl(DEFAULT_IMAGEURL);
-        managedUserDTO.setLangKey(DEFAULT_LANGKEY);
-        managedUserDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        userDTO.setLogin(DEFAULT_LOGIN);
+        userDTO.setFirstName(DEFAULT_FIRSTNAME);
+        userDTO.setLastName(DEFAULT_LASTNAME);
+        userDTO.setEmail(DEFAULT_EMAIL);
+        userDTO.setActivated(true);
+        userDTO.setImageUrl(DEFAULT_IMAGEURL);
+        userDTO.setLangKey(DEFAULT_LANGKEY);
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restUserMockMvc.perform(post("/api/users")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(managedUserDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
                 .andExpect(status().isBadRequest());
 
         // Validate the User in the database
@@ -194,21 +189,49 @@ public class UserResourceIntTest {
         userRepository.saveAndFlush(user);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-        ManagedUserDTO managedUserDTO = new ManagedUserDTO();
-        managedUserDTO.setLogin(DEFAULT_LOGIN);// this login should already be used
-        managedUserDTO.setPassword(DEFAULT_PASSWORD);
-        managedUserDTO.setFirstName(DEFAULT_FIRSTNAME);
-        managedUserDTO.setLastName(DEFAULT_LASTNAME);
-        managedUserDTO.setEmail("anothermail@localhost");
-        managedUserDTO.setActivated(true);
-        managedUserDTO.setImageUrl(DEFAULT_IMAGEURL);
-        managedUserDTO.setLangKey(DEFAULT_LANGKEY);
-        managedUserDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setLogin(DEFAULT_LOGIN);// this login should already be used
+        userDTO.setFirstName(DEFAULT_FIRSTNAME);
+        userDTO.setLastName(DEFAULT_LASTNAME);
+        userDTO.setEmail("anothermail@localhost");
+        userDTO.setActivated(true);
+        userDTO.setImageUrl(DEFAULT_IMAGEURL);
+        userDTO.setLangKey(DEFAULT_LANGKEY);
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         // Create the User
         restUserMockMvc.perform(post("/api/users")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(managedUserDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
+                .andExpect(status().isBadRequest());
+
+        // Validate the User in the database
+        List<User> userList = userRepository.findAll();
+        assertThat(userList).hasSize(databaseSizeBeforeCreate);
+    }
+
+
+    @Test
+    @Transactional
+    public void createUserWithExistingEmail() throws Exception {
+        // Initialize the database
+        userRepository.saveAndFlush(user);
+        int databaseSizeBeforeCreate = userRepository.findAll().size();
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setLogin("anotherlogin");
+        userDTO.setFirstName(DEFAULT_FIRSTNAME);
+        userDTO.setLastName(DEFAULT_LASTNAME);
+        userDTO.setEmail(DEFAULT_EMAIL);// this email should already be used
+        userDTO.setActivated(true);
+        userDTO.setImageUrl(DEFAULT_IMAGEURL);
+        userDTO.setLangKey(DEFAULT_LANGKEY);
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+
+        // Create the User
+        restUserMockMvc.perform(post("/api/users")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
                 .andExpect(status().isBadRequest());
 
         // Validate the User in the database
@@ -270,24 +293,24 @@ public class UserResourceIntTest {
         // Update the user
         User updatedUser = userRepository.findOneById(user.getId()).get();
 
-        UserDTO managedUserDTO = new UserDTO(user);
-        managedUserDTO.setId(updatedUser.getId());
-        managedUserDTO.setLogin(updatedUser.getLogin());
-        managedUserDTO.setFirstName(UPDATED_FIRSTNAME);
-        managedUserDTO.setLastName(UPDATED_LASTNAME);
-        managedUserDTO.setEmail(UPDATED_EMAIL);
-        managedUserDTO.setActivated(updatedUser.isActivated());
-        managedUserDTO.setImageUrl(UPDATED_IMAGEURL);
-        managedUserDTO.setLangKey(UPDATED_LANGKEY);
-        managedUserDTO.setCreatedBy(updatedUser.getCreatedBy());
-        managedUserDTO.setCreatedDate(updatedUser.getCreatedDate());
-        managedUserDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
-        managedUserDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
-        managedUserDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        UserDTO userDTO = new UserDTO(user);
+        userDTO.setId(updatedUser.getId());
+        userDTO.setLogin(updatedUser.getLogin());
+        userDTO.setFirstName(UPDATED_FIRSTNAME);
+        userDTO.setLastName(UPDATED_LASTNAME);
+        userDTO.setEmail(UPDATED_EMAIL);
+        userDTO.setActivated(updatedUser.isActivated());
+        userDTO.setImageUrl(UPDATED_IMAGEURL);
+        userDTO.setLangKey(UPDATED_LANGKEY);
+        userDTO.setCreatedBy(updatedUser.getCreatedBy());
+        userDTO.setCreatedDate(updatedUser.getCreatedDate());
+        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
+        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc.perform(put("/api/users")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(managedUserDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
                 .andExpect(status().isOk());
 
         // Validate the User in the database
@@ -299,6 +322,130 @@ public class UserResourceIntTest {
         assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testUser.getImageUrl()).isEqualTo(UPDATED_IMAGEURL);
         assertThat(testUser.getLangKey()).isEqualTo(UPDATED_LANGKEY);
+    }
+
+    @Test
+    @Transactional
+    public void updateUserLogin() throws Exception {
+        // Initialize the database
+        userRepository.saveAndFlush(user);
+        int databaseSizeBeforeUpdate = userRepository.findAll().size();
+
+        // Update the user
+        User updatedUser = userRepository.findOneById(user.getId()).get();
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(updatedUser.getId());
+        userDTO.setLogin(UPDATED_LOGIN);
+        userDTO.setFirstName(UPDATED_FIRSTNAME);
+        userDTO.setLastName(UPDATED_LASTNAME);
+        userDTO.setEmail(UPDATED_EMAIL);
+        userDTO.setActivated(updatedUser.isActivated());
+        userDTO.setImageUrl(UPDATED_IMAGEURL);
+        userDTO.setLangKey(UPDATED_LANGKEY);
+        userDTO.setCreatedBy(updatedUser.getCreatedBy());
+        userDTO.setCreatedDate(updatedUser.getCreatedDate());
+        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
+        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+
+        restUserMockMvc.perform(put("/api/users")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
+                .andExpect(status().isOk());
+
+        // Validate the User in the database
+        List<User> userList = userRepository.findAll();
+        assertThat(userList).hasSize(databaseSizeBeforeUpdate);
+        User testUser = userList.get(userList.size() - 1);
+        assertThat(testUser.getLogin()).isEqualTo(UPDATED_LOGIN);
+        assertThat(testUser.getFirstName()).isEqualTo(UPDATED_FIRSTNAME);
+        assertThat(testUser.getLastName()).isEqualTo(UPDATED_LASTNAME);
+        assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testUser.getImageUrl()).isEqualTo(UPDATED_IMAGEURL);
+        assertThat(testUser.getLangKey()).isEqualTo(UPDATED_LANGKEY);
+    }
+
+    @Test
+    @Transactional
+    public void updateUserExistingEmail() throws Exception {
+        // Initialize the database with 2 users
+        userRepository.saveAndFlush(user);
+
+        User anotherUser = new User();
+        anotherUser.setLogin("podwozka");
+        anotherUser.setPassword(DEFAULT_PASSWORD);
+        anotherUser.setActivated(true);
+        anotherUser.setEmail("podwozka@localhost");
+        anotherUser.setFirstName("java");
+        anotherUser.setLastName("podwozka");
+        anotherUser.setImageUrl("");
+        anotherUser.setLangKey("en");
+        userRepository.saveAndFlush(anotherUser);
+
+        // Update the user
+        User updatedUser = userRepository.findOneById(user.getId()).get();
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(updatedUser.getId());
+        userDTO.setLogin(updatedUser.getLogin());
+        userDTO.setFirstName(updatedUser.getFirstName());
+        userDTO.setLastName(updatedUser.getLastName());
+        userDTO.setEmail("podwozka@localhost");// this email should already be used by anotherUser
+        userDTO.setActivated(updatedUser.isActivated());
+        userDTO.setImageUrl(updatedUser.getImageUrl());
+        userDTO.setLangKey(updatedUser.getLangKey());
+        userDTO.setCreatedBy(updatedUser.getCreatedBy());
+        userDTO.setCreatedDate(updatedUser.getCreatedDate());
+        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
+        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+
+        restUserMockMvc.perform(put("/api/users")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    public void updateUserExistingLogin() throws Exception {
+        // Initialize the database
+        userRepository.saveAndFlush(user);
+
+        User anotherUser = new User();
+        anotherUser.setLogin("podwozka");
+        anotherUser.setPassword(DEFAULT_PASSWORD);
+        anotherUser.setActivated(true);
+        anotherUser.setEmail("podwozka@localhost");
+        anotherUser.setFirstName("java");
+        anotherUser.setLastName("podwozka");
+        anotherUser.setImageUrl("");
+        anotherUser.setLangKey("en");
+        userRepository.saveAndFlush(anotherUser);
+
+        // Update the user
+        User updatedUser = userRepository.findOneById(user.getId()).get();
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(updatedUser.getId());
+        userDTO.setLogin("podwozka");// this login should already be used by anotherUser
+        userDTO.setFirstName(updatedUser.getFirstName());
+        userDTO.setLastName(updatedUser.getLastName());
+        userDTO.setEmail(updatedUser.getEmail());
+        userDTO.setActivated(updatedUser.isActivated());
+        userDTO.setImageUrl(updatedUser.getImageUrl());
+        userDTO.setLangKey(updatedUser.getLangKey());
+        userDTO.setCreatedBy(updatedUser.getCreatedBy());
+        userDTO.setCreatedDate(updatedUser.getCreatedDate());
+        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
+        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+        userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+
+        restUserMockMvc.perform(put("/api/users")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
