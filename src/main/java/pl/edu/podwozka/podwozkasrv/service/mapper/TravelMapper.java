@@ -41,10 +41,6 @@ public class TravelMapper {
             travel.setLastName(travelDTO.getLastName());
             travel.setPassengersCount(travelDTO.getPassengersCount());
             travel.setPickUpDatetime(TimeUtil.localDateTimeToInstant(travelDTO.getPickUpDatetime()));
-            travel.setCreatedBy(travelDTO.getCreatedBy());
-            travel.setCreatedDate(travelDTO.getCreatedDate());
-            travel.setLastModifiedBy(travelDTO.getLastModifiedBy());
-            travel.setLastModifiedDate(travelDTO.getLastModifiedDate());
             return travel;
         }
     }
