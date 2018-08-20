@@ -15,13 +15,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.podwozka.podwozkasrv.PodwozkaSrvApplication;
-import pl.edu.podwozka.podwozkasrv.config.Constants;
 import pl.edu.podwozka.podwozkasrv.domain.Travel;
 import pl.edu.podwozka.podwozkasrv.repository.TravelRepository;
 import pl.edu.podwozka.podwozkasrv.service.TravelService;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
 import pl.edu.podwozka.podwozkasrv.service.mapper.TravelMapper;
 import pl.edu.podwozka.podwozkasrv.time.TimeUtil;
+import pl.edu.podwozka.podwozkasrv.web.rest.exception.ExceptionTranslator;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -82,6 +82,9 @@ public class TravelResourceIntTest {
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
     @Autowired
+    private ExceptionTranslator exceptionTranslator;
+
+    @Autowired
     @Qualifier("podwozkaJackson2HttpMessageConverter")
     private MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
 
@@ -97,6 +100,7 @@ public class TravelResourceIntTest {
                 .standaloneSetup(travelResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setMessageConverters(jackson2HttpMessageConverter)
+                .setControllerAdvice(exceptionTranslator)
                 .build();
 
         travel = createEntity();
@@ -117,8 +121,6 @@ public class TravelResourceIntTest {
         travel.setLastName(DEFAULT_LASTNAME);
         travel.setPassengersCount(DEFAULT_PASSENGERS_COUNT);
         travel.setPickUpDatetime(DEFAULT_INSTANT);
-
-        travel.setCreatedBy(Constants.SYSTEM_ACCOUNT);
 
         return travel;
     }

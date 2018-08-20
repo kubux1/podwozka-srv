@@ -128,7 +128,7 @@ public class UserService {
 
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
         return Optional.of(userRepository
-                .findById(userDTO.getId().toString()))
+                .findOneById(userDTO.getId()))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(user -> {
