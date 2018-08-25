@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.podwozka.podwozkasrv.config.Constants;
@@ -12,7 +13,9 @@ import pl.edu.podwozka.podwozkasrv.domain.User;
 import pl.edu.podwozka.podwozkasrv.repository.AuthorityRepository;
 import pl.edu.podwozka.podwozkasrv.repository.UserRepository;
 import pl.edu.podwozka.podwozkasrv.security.AuthoritiesConstants;
+import pl.edu.podwozka.podwozkasrv.security.SecurityUtils;
 import pl.edu.podwozka.podwozkasrv.service.dto.UserDTO;
+import pl.edu.podwozka.podwozkasrv.web.rest.exception.InvalidPasswordException;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -31,9 +34,13 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, AuthorityRepository authorityRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, AuthorityRepository authorityRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -154,6 +161,20 @@ public class UserService {
                 .map(UserDTO::new);
     }
 
+    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
+        SecurityUtils.getCurrentUserLogin()
+                .flatMap(userRepository::findOneByLogin)
+                .ifPresent(user -> {
+                    user.setFirstName(firstName);
+                    user.setLastName(lastName);
+                    user.setEmail(email);
+                    user.setLangKey(langKey);
+                    user.setImageUrl(imageUrl);
+                    log.debug("Changed Information for User: {}", user);
+                });
+    }
+
+
     public void deleteUser(String login) {
         userRepository.findOneByLogin(login).ifPresent(user -> {
             userRepository.delete(user);
@@ -176,7 +197,26 @@ public class UserService {
         return userRepository.findOneWithAuthoritiesById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<User> getUserWithAuthorities() {
+        return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
+    }
+
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+    }
+
+    public void changePassword(String currentClearTextPassword, String newPassword) {
+        SecurityUtils.getCurrentUserLogin()
+                .flatMap(userRepository::findOneByLogin)
+                .ifPresent(user -> {
+                    String currentEncryptedPassword = user.getPassword();
+                    if (!passwordEncoder.matches(currentClearTextPassword, currentEncryptedPassword)) {
+                        throw new InvalidPasswordException();
+                    }
+                    String encryptedPassword = passwordEncoder.encode(newPassword);
+                    user.setPassword(encryptedPassword);
+                    log.debug("Changed password for User: {}", user);
+                });
     }
 }
