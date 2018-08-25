@@ -52,7 +52,6 @@ public class AccountResource {
      * @throws LoginAlreadyUsedException 400 (Bad Request) if the login is already used
      */
     @PostMapping("/register")
-
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody ManagedUserDTO managedUserDTO) {
         if (!checkPasswordLength(managedUserDTO.getPassword())) {
@@ -72,7 +71,6 @@ public class AccountResource {
      * @throws RuntimeException 500 (Internal Server Error) if the user couldn't be activated
      */
     @GetMapping("/activate")
-
     public void activateAccount(@RequestParam(value = "key") String key) {
         Optional<User> user = userService.activateRegistration(key);
         if (!user.isPresent()) {
@@ -87,7 +85,6 @@ public class AccountResource {
      * @return the login if the user is authenticated
      */
     @GetMapping("/authenticate")
-
     public String isAuthenticated(HttpServletRequest request) {
         log.debug("REST request to check if the current user is authenticated");
         return request.getRemoteUser();
@@ -100,7 +97,6 @@ public class AccountResource {
      * @throws RuntimeException 500 (Internal Server Error) if the user couldn't be returned
      */
     @GetMapping("/account")
-
     public UserDTO getAccount() {
         return userService.getUserWithAuthorities()
                 .map(UserDTO::new)
@@ -115,7 +111,6 @@ public class AccountResource {
      * @throws RuntimeException 500 (Internal Server Error) if the user login wasn't found
      */
     @PostMapping("/account")
-
     public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
         final String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new InternalServerErrorException("Current user login not found"));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
@@ -137,7 +132,6 @@ public class AccountResource {
      * @throws InvalidPasswordException 400 (Bad Request) if the new password is incorrect
      */
     @PostMapping(path = "/account/change-password")
-
     public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
         if (!checkPasswordLength(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();
@@ -153,7 +147,6 @@ public class AccountResource {
      * @throws RuntimeException 500 (Internal Server Error) if the password could not be reset
      */
     @PostMapping(path = "/account/reset-password/finish")
-
     public void finishPasswordReset(@RequestBody KeyAndPasswordDTO keyAndPassword) {
         if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
             throw new InvalidPasswordException();
