@@ -62,7 +62,7 @@ public class UserService {
         return userRepository.findOneByResetKey(key)
                 .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
                 .map(user -> {
-                    user.setPassword(newPassword);
+                    user.setPassword(passwordEncoder.encode(newPassword));
                     user.setResetKey(null);
                     user.setResetDate(null);
 
@@ -84,7 +84,7 @@ public class UserService {
     public User registerUser(UserDTO userDTO, String password) {
 
         User newUser = new User();
-        String encryptedPassword = password;
+        String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.getLogin());
         newUser.setPassword(encryptedPassword);
         newUser.setFirstName(userDTO.getFirstName());
@@ -122,7 +122,7 @@ public class UserService {
                     .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
-        String encryptedPassword = RandomUtil.generatePassword();
+        String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
