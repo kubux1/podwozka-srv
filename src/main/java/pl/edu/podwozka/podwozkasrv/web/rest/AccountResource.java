@@ -61,7 +61,7 @@ public class AccountResource {
                 u -> {throw new LoginAlreadyUsedException();});
         userRepository.findOneByEmailIgnoreCase(managedUserDTO.getEmail()).ifPresent(
                 u -> {throw new EmailAlreadyUsedException();});
-        User user = userService.registerUser(managedUserDTO, managedUserDTO.getPassword());
+        userService.registerUser(managedUserDTO, managedUserDTO.getPassword());
     }
 
     /**

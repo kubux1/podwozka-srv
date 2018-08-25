@@ -151,16 +151,16 @@ public class AccountResourceIntTest {
     @Transactional
     public void testRegisterValid() throws Exception {
         ManagedUserDTO validUser = new ManagedUserDTO();
-        validUser.setLogin("joe");
+        validUser.setLogin("jan");
         validUser.setPassword("password");
-        validUser.setFirstName("Joe");
-        validUser.setLastName("Shmoe");
-        validUser.setEmail("joe@example.com");
+        validUser.setFirstName("jan");
+        validUser.setLastName("pan");
+        validUser.setEmail("jan@example.com");
         validUser.setActivated(true);
         validUser.setImageUrl("http://placehold.it/50x50");
         validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
-        assertThat(userRepository.findOneByLogin("joe").isPresent()).isFalse();
+        assertThat(userRepository.findOneByLogin("jan").isPresent()).isFalse();
 
         restMvc.perform(
             post("/api/register")
@@ -168,7 +168,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
-        assertThat(userRepository.findOneByLogin("joe").isPresent()).isTrue();
+        assertThat(userRepository.findOneByLogin("jan").isPresent()).isTrue();
     }
 
     @Test
