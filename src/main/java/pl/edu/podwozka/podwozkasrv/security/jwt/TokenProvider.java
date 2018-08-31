@@ -36,7 +36,7 @@ public class TokenProvider {
 
     @PostConstruct
     public void init() {
-        this.secretKey = null;
+        this.secretKey = "eyJhbGciOiJIUzUxMiJ1TUlOLFJPTEcCI6MTUzNTg0MDUxM30.DEV0zT_MSkKUdA0zOrEMu7BfsZW2tQhQ";
 
         this.tokenValidityInMilliseconds = 1000 * tokenValidityInSeconds;
         this.tokenValidityInMillisecondsForRememberMe = 1000 * tokenValidityInSecondsForRememberMe;
