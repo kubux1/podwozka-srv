@@ -28,8 +28,6 @@ public class TokenProvider {
 
     private static final long tokenValidityInSecondsForRememberMe = 2592000; // 30 hours;
 
-    private final Base64.Encoder encoder = Base64.getEncoder();
-
     private String secretKey;
 
     private long tokenValidityInMilliseconds;
