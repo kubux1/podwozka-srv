@@ -8,7 +8,7 @@ spring:
     liquibase:
         change-log: classpath:db/liquibase-changelog.xml
     datasource:
-        url: jdbc:mysql://localhost:3306/podwoozka?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
+        url: jdbc:mysql://localhost:3306/podwoozka?useUnicode=true&characterEncoding=UTF-8&useSSL=false&createDatabaseIfNotExist=true
         username: root
         password: password
     application:

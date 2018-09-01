@@ -2,11 +2,236 @@
 	"variables": [],
 	"info": {
 		"name": "podwoozka-srv",
-		"_postman_id": "0122232b-ee5f-765e-e911-b1642d9430dc",
+		"_postman_id": "4b2c4cf3-e047-17e2-5cf6-f804821986eb",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "account",
+			"description": "",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"url": "http://localhost:8080/api/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": null,\n    \"login\": \"user12112\",\n    \"firstName\": \"Adam\",\n    \"password\": \"tajnehaslo\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam2112@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "activate",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/api/activate?key=238y4fn85f24y5983",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"activate"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "238y4fn85f24y5983",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": null,\n    \"login\": \"user12112\",\n    \"firstName\": \"Adam\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam2112@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"description": "",
+			"item": [
+				{
+					"name": "user",
+					"request": {
+						"url": "http://localhost:8080/api/users",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": null,\n    \"login\": \"user12112\",\n    \"firstName\": \"Adam\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam2112@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"url": "http://localhost:8080/api/users",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 10,\n    \"login\": \"user132123123\",\n    \"firstName\": \"Adam\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam231231@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"createdBy\": \"system\",\n    \"createdDate\": \"2018-08-19T21:52:44Z\",\n    \"lastModifiedBy\": \"system\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "allUsers",
+					"request": {
+						"url": {
+							"raw": "http://localhost:8080/api/users?size=10&=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "",
+									"value": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "userByLogin",
+					"request": {
+						"url": "http://localhost:8080/api/users/system",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "userByLogin",
+					"request": {
+						"url": "http://localhost:8080/api/users/user12112",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "allAuthorities",
+					"request": {
+						"url": "http://localhost:8080/api/users/authorities",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "travel",
 			"description": "",
@@ -138,153 +363,6 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "user",
-			"description": "",
-			"item": [
-				{
-					"name": "user",
-					"request": {
-						"url": "http://localhost:8080/api/users",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": null,\n    \"login\": \"user12112\",\n    \"firstName\": \"Adam\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam2112@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "user",
-					"request": {
-						"url": "http://localhost:8080/api/users",
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 10,\n    \"login\": \"user132123123\",\n    \"firstName\": \"Adam\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam231231@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"createdBy\": \"system\",\n    \"createdDate\": \"2018-08-19T21:52:44Z\",\n    \"lastModifiedBy\": \"system\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "allUsers",
-					"request": {
-						"url": {
-							"raw": "http://localhost:8080/api/users?&size=10",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"users"
-							],
-							"query": [
-								{
-									"key": "size",
-									"value": "10",
-									"equals": true,
-									"description": ""
-								},
-								{
-									"key": "",
-									"value": ""
-								}
-							],
-							"variable": []
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept-Charset",
-								"value": "utf-8",
-								"description": ""
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "userByLogin",
-					"request": {
-						"url": "http://localhost:8080/api/users/system",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept-Charset",
-								"value": "utf-8",
-								"description": ""
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "userByLogin",
-					"request": {
-						"url": "http://localhost:8080/api/users/user12112",
-						"method": "DELETE",
-						"header": [],
-						"body": {},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "allAuthorities",
-					"request": {
-						"url": "http://localhost:8080/api/users/authorities",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept-Charset",
-								"value": "utf-8",
-								"description": ""
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {},
 						"description": ""
 					},
 					"response": []
