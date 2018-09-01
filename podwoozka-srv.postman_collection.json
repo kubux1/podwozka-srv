@@ -1,39 +1,56 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "3a70261f-7eaf-47e2-891e-02d9b6959081",
 		"name": "podwoozka-srv",
-		"_postman_id": "4b2c4cf3-e047-17e2-5cf6-f804821986eb",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "account",
-			"description": "",
 			"item": [
 				{
 					"name": "register",
 					"request": {
-						"url": "http://localhost:8080/api/register",
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"id\": null,\n    \"login\": \"user12112\",\n    \"firstName\": \"Adam\",\n    \"password\": \"tajnehaslo\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam2112@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"register"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "activate",
 					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": null,\n    \"login\": \"user12112\",\n    \"firstName\": \"Adam\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam2112@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
+						},
 						"url": {
 							"raw": "http://localhost:8080/api/activate?key=238y4fn85f24y5983",
 							"protocol": "http",
@@ -48,26 +65,39 @@
 							"query": [
 								{
 									"key": "key",
-									"value": "238y4fn85f24y5983",
-									"equals": true,
-									"description": ""
+									"value": "238y4fn85f24y5983"
 								}
-							],
-							"variable": []
-						},
-						"method": "GET",
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "authenticate",
+					"request": {
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": null,\n    \"login\": \"user12112\",\n    \"firstName\": \"Adam\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam2112@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
+							"raw": "{\"username\":\"admin\",\"password\":\"admin\"}"
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"authenticate"
+							]
+						}
 					},
 					"response": []
 				}
@@ -75,51 +105,113 @@
 		},
 		{
 			"name": "user",
-			"description": "",
 			"item": [
 				{
 					"name": "user",
 					"request": {
-						"url": "http://localhost:8080/api/users",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTUzNTg0MDUxM30.DEV0zT_MSkKUdA0zOrEMu7BfsZtkJKGReIIded6f2oL-xP6GW7Pc0SF6JF2exYjX2K0qwUDv8W8HHZHKW2tQhQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"id\": null,\n    \"login\": \"user12112\",\n    \"firstName\": \"Adam\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam2112@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "user",
 					"request": {
-						"url": "http://localhost:8080/api/users",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTUzNTg0MDUxM30.DEV0zT_MSkKUdA0zOrEMu7BfsZtkJKGReIIded6f2oL-xP6GW7Pc0SF6JF2exYjX2K0qwUDv8W8HHZHKW2tQhQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"id\": 10,\n    \"login\": \"user132123123\",\n    \"firstName\": \"Adam\",\n    \"lastName\": \"Adamiak\",\n    \"email\": \"adam231231@localhost\",\n    \"imageUrl\": \"\",\n    \"activated\": true,\n    \"langKey\": \"pl\",\n    \"createdBy\": \"system\",\n    \"createdDate\": \"2018-08-19T21:52:44Z\",\n    \"lastModifiedBy\": \"system\",\n    \"authorities\": [\n        \"ROLE_USER\"\n    ]\n}\n"
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "allUsers",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTUzNTg0MDUxM30.DEV0zT_MSkKUdA0zOrEMu7BfsZtkJKGReIIded6f2oL-xP6GW7Pc0SF6JF2exYjX2K0qwUDv8W8HHZHKW2tQhQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:8080/api/users?size=10&=",
 							"protocol": "http",
@@ -134,99 +226,137 @@
 							"query": [
 								{
 									"key": "size",
-									"value": "10",
-									"equals": true,
-									"description": ""
+									"value": "10"
 								},
 								{
 									"key": "",
 									"value": ""
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userByLogin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTUzNTg0MDUxM30.DEV0zT_MSkKUdA0zOrEMu7BfsZtkJKGReIIded6f2oL-xP6GW7Pc0SF6JF2exYjX2K0qwUDv8W8HHZHKW2tQhQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/system",
+							"protocol": "http",
+							"host": [
+								"localhost"
 							],
-							"variable": []
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept-Charset",
-								"value": "utf-8",
-								"description": ""
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"system"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "userByLogin",
 					"request": {
-						"url": "http://localhost:8080/api/users/system",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept-Charset",
-								"value": "utf-8",
-								"description": ""
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTUzNTg0MDUxM30.DEV0zT_MSkKUdA0zOrEMu7BfsZtkJKGReIIded6f2oL-xP6GW7Pc0SF6JF2exYjX2K0qwUDv8W8HHZHKW2tQhQ",
+									"type": "string"
+								}
+							]
 						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "userByLogin",
-					"request": {
-						"url": "http://localhost:8080/api/users/user12112",
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/users/user12112",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"user12112"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "allAuthorities",
 					"request": {
-						"url": "http://localhost:8080/api/users/authorities",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTUzNTg0MDUxM30.DEV0zT_MSkKUdA0zOrEMu7BfsZtkJKGReIIded6f2oL-xP6GW7Pc0SF6JF2exYjX2K0qwUDv8W8HHZHKW2tQhQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Accept-Charset",
-								"value": "utf-8",
-								"description": ""
+								"value": "utf-8"
 							},
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/users/authorities",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"authorities"
+							]
+						}
 					},
 					"response": []
 				}
@@ -234,76 +364,117 @@
 		},
 		{
 			"name": "travel",
-			"description": "",
 			"item": [
 				{
 					"name": "travel",
 					"request": {
-						"url": "http://localhost:8080/api/travels",
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"id\": null,\n  \"login\": \"bartek\",\n  \"startPlace\": \"Dom\",\n  \"endPlace\": \"Czyis Dom\",\n  \"firstName\": \"Maciej\",\n  \"lastName\": \"Topola\",\n  \"passengersCount\": 1,\n  \"pickUpDatetime\": \"2016-03-16T13:56:39.492\"\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/travels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"travels"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "travel_id_1",
 					"request": {
-						"url": "http://localhost:8080/api/travels",
 						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"id\": 1,\n  \"login\": \"bartekChanged\",\n  \"startPlace\": \"DomChanged\",\n  \"endPlace\": \"Czyis DomChanged\",\n  \"firstName\": \"MaciejChanged\",\n  \"lastName\": \"TopolaChanged\",\n  \"passengersCount\": 3,\n  \"pickUpDatetime\": \"2018-03-16T13:56:39.492\"\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/travels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"travels"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "travel_id_1",
 					"request": {
-						"url": "http://localhost:8080/api/travels/15",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Accept-Charset",
-								"value": "utf-8",
-								"description": ""
+								"value": "utf-8"
 							},
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/travels/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"travels",
+								"15"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "travelsByLogin",
 					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://localhost:8080/api/travels/?login=bartek&size=10",
 							"protocol": "http",
@@ -319,51 +490,40 @@
 							"query": [
 								{
 									"key": "login",
-									"value": "bartek",
-									"equals": true,
-									"description": ""
+									"value": "bartek"
 								},
 								{
 									"key": "size",
-									"value": "10",
-									"equals": true,
-									"description": ""
+									"value": "10"
 								}
-							],
-							"variable": []
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept-Charset",
-								"value": "utf-8",
-								"description": ""
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "travel_id_1",
 					"request": {
-						"url": "http://localhost:8080/api/travels/delete/14",
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:8080/api/travels/delete/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"travels",
+								"delete",
+								"14"
+							]
+						}
 					},
 					"response": []
 				}
