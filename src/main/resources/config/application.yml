@@ -25,6 +25,22 @@ spring:
             naming:
                 physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
                 implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    data:
+        jpa:
+            repositories:
+                enabled: false
+
+
+server:
+    port: 8443
+    ssl:
+        enabled: true
+        key-alias: selfsigned_podwozka_sslserver
+        key-password: podwozka_pa$$word_SSL
+        key-store: classpath:keystore.jks
+        key-store-provider: SUN
+        key-store-type: JKS
+        key-store-password: podwozka_pa$$word_SSL_key_store
 
 # ===================================================================
 # Application specific properties
