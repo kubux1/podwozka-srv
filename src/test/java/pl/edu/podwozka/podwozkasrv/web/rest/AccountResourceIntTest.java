@@ -24,13 +24,11 @@ import pl.edu.podwozka.podwozkasrv.repository.AuthorityRepository;
 import pl.edu.podwozka.podwozkasrv.repository.UserRepository;
 import pl.edu.podwozka.podwozkasrv.security.AuthoritiesConstants;
 import pl.edu.podwozka.podwozkasrv.service.UserService;
-import pl.edu.podwozka.podwozkasrv.service.dto.KeyAndPasswordDTO;
 import pl.edu.podwozka.podwozkasrv.service.dto.ManagedUserDTO;
 import pl.edu.podwozka.podwozkasrv.service.dto.PasswordChangeDTO;
 import pl.edu.podwozka.podwozkasrv.service.dto.UserDTO;
 import pl.edu.podwozka.podwozkasrv.web.rest.exception.ExceptionTranslator;
 
-import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
@@ -72,7 +70,7 @@ public class AccountResourceIntTest {
     private MockMvc restUserMockMvc;
 
     @Before
-    public void setup() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         AccountResource accountResource =
                 new AccountResource(userRepository, userService);

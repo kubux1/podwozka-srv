@@ -25,6 +25,8 @@ import java.time.Instant;
 @Table(name = "travel")
 public class Travel extends AbstractAuditingEntity implements Serializable {
 
+    private static final long serialVersionUID = -7062814821221097048L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -93,7 +93,7 @@ public class TravelResourceIntTest {
     private Travel travel;
 
     @Before
-    public void setup() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         TravelResource travelResource = new TravelResource(travelService);
         this.restTravelMockMvc = MockMvcBuilders

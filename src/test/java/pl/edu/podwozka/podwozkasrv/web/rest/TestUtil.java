@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
  * Utility class for testing REST controllers.
  * This class is package-private.
  */
-class TestUtil {
+final class TestUtil {
 
     /** MediaType for JSON UTF8 */
     static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
@@ -26,5 +26,8 @@ class TestUtil {
      */
     static byte[] convertObjectToJsonBytes(Object object) throws IOException {
         return Constants.getDefaultObjectMapper().writeValueAsBytes(object);
+    }
+
+    private TestUtil() {
     }
 }
