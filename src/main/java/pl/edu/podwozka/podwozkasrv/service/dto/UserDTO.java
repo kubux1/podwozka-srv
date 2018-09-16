@@ -17,7 +17,6 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @Getter
 @Setter
 @ToString
@@ -58,7 +57,9 @@ public class UserDTO {
 
     private Set<String> authorities;
 
-    public UserDTO() {} // Empty constructor needed for Jackson.
+    public UserDTO() {
+        // Empty constructor needed for Jackson.
+    }
 
     public UserDTO(User user) {
         this.id = user.getId();

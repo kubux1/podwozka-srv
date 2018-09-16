@@ -15,7 +15,6 @@ import pl.edu.podwozka.podwozkasrv.domain.User;
 import pl.edu.podwozka.podwozkasrv.repository.UserRepository;
 import pl.edu.podwozka.podwozkasrv.security.SecurityUtils;
 import pl.edu.podwozka.podwozkasrv.service.UserService;
-import pl.edu.podwozka.podwozkasrv.service.dto.KeyAndPasswordDTO;
 import pl.edu.podwozka.podwozkasrv.service.dto.ManagedUserDTO;
 import pl.edu.podwozka.podwozkasrv.service.dto.PasswordChangeDTO;
 import pl.edu.podwozka.podwozkasrv.service.dto.UserDTO;
@@ -58,9 +57,9 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         userRepository.findOneByLogin(managedUserDTO.getLogin().toLowerCase()).ifPresent(
-                u -> {throw new LoginAlreadyUsedException();});
+                u -> { throw new LoginAlreadyUsedException(); });
         userRepository.findOneByEmailIgnoreCase(managedUserDTO.getEmail()).ifPresent(
-                u -> {throw new EmailAlreadyUsedException();});
+                u -> { throw new EmailAlreadyUsedException(); });
         userService.registerUser(managedUserDTO, managedUserDTO.getPassword());
     }
 
@@ -112,7 +111,8 @@ public class AccountResource {
      */
     @PostMapping("/account")
     public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
-        final String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new InternalServerErrorException("Current user login not found"));
+        final String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new InternalServerErrorException(
+                "Current user login not found"));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
             throw new EmailAlreadyUsedException();

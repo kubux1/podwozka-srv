@@ -9,7 +9,7 @@ import org.springframework.http.HttpHeaders;
  */
 public final class HeaderUtil {
 
-    private static final Logger log = LoggerFactory.getLogger(HeaderUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeaderUtil.class);
 
     private HeaderUtil() {
     }
@@ -34,7 +34,7 @@ public final class HeaderUtil {
     }
 
     public static HttpHeaders createFailureAlert(String entityName, String errorKey, String defaultMessage) {
-        log.error("Entity processing failed, {}", defaultMessage);
+        LOGGER.error("Entity processing failed, {}", defaultMessage);
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-podwozkaApp-error", defaultMessage);
         headers.add("X-podwozkaApp-params", entityName);

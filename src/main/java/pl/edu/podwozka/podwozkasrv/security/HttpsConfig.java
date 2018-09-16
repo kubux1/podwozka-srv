@@ -11,6 +11,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class HttpsConfig {
+
+    private static final int PORT = 8080;
+    private static final int REDIRECT_PORT = 8443;
+
     @Bean
     public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
@@ -31,9 +35,9 @@ public class HttpsConfig {
     private Connector redirectConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
-        connector.setPort(8080);
+        connector.setPort(PORT);
         connector.setSecure(false);
-        connector.setRedirectPort(8443);
+        connector.setRedirectPort(REDIRECT_PORT);
         return connector;
     }
 }

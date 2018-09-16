@@ -50,7 +50,9 @@ public class TravelDTO {
 
     private Instant lastModifiedDate;
 
-    public TravelDTO() {} // Empty constructor needed for Jackson.
+    public TravelDTO() {
+        // Empty constructor needed for Jackson.
+    }
 
     public TravelDTO(Travel travel) {
         this.id = travel.getId();

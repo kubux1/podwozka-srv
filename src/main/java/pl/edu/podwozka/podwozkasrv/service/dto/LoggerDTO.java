@@ -16,7 +16,9 @@ public class LoggerDTO {
         this.level = logger.getEffectiveLevel().toString();
     }
 
-    public LoggerDTO() {} // Empty public constructor used by Jackson.
+    public LoggerDTO() {
+        // Empty public constructor used by Jackson.
+    }
 
     public String getName() {
         return name;

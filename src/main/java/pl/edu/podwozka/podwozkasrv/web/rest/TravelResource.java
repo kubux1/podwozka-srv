@@ -61,7 +61,7 @@ public class TravelResource {
         } else {
             TravelDTO newTravel = travelService.save(travelDTO);
             return ResponseEntity.created(new URI("/api/travels/" + newTravel.getId()))
-                    .headers(HeaderUtil.createAlert( "A travel is created with identifier ",
+                    .headers(HeaderUtil.createAlert("A travel is created with identifier ",
                             newTravel.getId().toString()))
                     .body(newTravel);
         }
@@ -130,7 +130,7 @@ public class TravelResource {
     public ResponseEntity<Void> deleteTravel(@PathVariable Long id) {
         log.debug("REST request to delete Travel: {}", id);
         travelService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "A travel is deleted with identifier ",
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("A travel is deleted with identifier ",
                 id.toString())).build();
     }
 }

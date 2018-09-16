@@ -8,12 +8,13 @@ import java.time.LocalDateTime;
 public final class TimeUtil {
 
     public static Instant localDateTimeToInstant(LocalDateTime localDateTime) {
-        return localDateTime.atZone(Constants.defaultZoneOffset).toInstant();
+        return localDateTime.atZone(Constants.DEFAULT_ZONE_OFFSET).toInstant();
     }
 
     public static LocalDateTime instantToLocalDateTime(Instant instant) {
-        return LocalDateTime.ofInstant(instant, Constants.defaultZoneOffset);
+        return LocalDateTime.ofInstant(instant, Constants.DEFAULT_ZONE_OFFSET);
     }
 
-    private TimeUtil() {}
+    private TimeUtil() {
+    }
 }

@@ -30,6 +30,8 @@ public class UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
+    private static final int ONE_DAY = 86400;
+
     private final UserRepository userRepository;
 
     private final AuthorityRepository authorityRepository;
@@ -60,7 +62,7 @@ public class UserService {
         log.debug("Reset user password for reset key {}", key);
 
         return userRepository.findOneByResetKey(key)
-                .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
+                .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(ONE_DAY)))
                 .map(user -> {
                     user.setPassword(passwordEncoder.encode(newPassword));
                     user.setResetKey(null);
@@ -173,7 +175,6 @@ public class UserService {
                     log.debug("Changed Information for User: {}", user);
                 });
     }
-
 
     public void deleteUser(String login) {
         userRepository.findOneByLogin(login).ifPresent(user -> {

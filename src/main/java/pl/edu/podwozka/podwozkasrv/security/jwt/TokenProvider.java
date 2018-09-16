@@ -1,6 +1,12 @@
 package pl.edu.podwozka.podwozkasrv.security.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -24,9 +29,9 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
 
-    private static final long tokenValidityInSeconds = 1800; // 0.5 hour;
+    private static final long TOKEN_VALIDITY_IN_SECONDS = 1800; // 0.5 hour;
 
-    private static final long tokenValidityInSecondsForRememberMe = 2592000; // 30 hours;
+    private static final long TOKEN_VALIDITY_IN_SECONDS_FOR_REMEMBER_ME = 2592000; // 30 hours;
 
     private String secretKey;
 
@@ -38,8 +43,8 @@ public class TokenProvider {
     public void init() {
         this.secretKey = "eyJhbGciOiJIUzUxMiJ1TUlOLFJPTEcCI6MTUzNTg0MDUxM30.DEV0zT_MSkKUdA0zOrEMu7BfsZW2tQhQ";
 
-        this.tokenValidityInMilliseconds = 1000 * tokenValidityInSeconds;
-        this.tokenValidityInMillisecondsForRememberMe = 1000 * tokenValidityInSecondsForRememberMe;
+        this.tokenValidityInMilliseconds = 1000 * TOKEN_VALIDITY_IN_SECONDS;
+        this.tokenValidityInMillisecondsForRememberMe = 1000 * TOKEN_VALIDITY_IN_SECONDS_FOR_REMEMBER_ME;
     }
 
     public String createToken(Authentication authentication, boolean rememberMe) {

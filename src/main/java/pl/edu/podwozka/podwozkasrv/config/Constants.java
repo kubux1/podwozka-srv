@@ -1,6 +1,5 @@
 package pl.edu.podwozka.podwozkasrv.config;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
@@ -26,7 +25,7 @@ public final class Constants {
         return mapper;
     }
 
-    public final static ZoneOffset defaultZoneOffset = ZoneOffset.UTC;
+    public static final ZoneOffset DEFAULT_ZONE_OFFSET = ZoneOffset.UTC;
 
     public static final String SYSTEM_ACCOUNT = "system";
 
