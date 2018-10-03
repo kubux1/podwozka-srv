@@ -6,4 +6,5 @@
 
     <include file="changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20180818125250_create_travel_entity.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20181003225750_create_passengers_travels_entity.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
