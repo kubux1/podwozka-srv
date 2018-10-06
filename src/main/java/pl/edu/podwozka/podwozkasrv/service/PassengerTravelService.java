@@ -78,7 +78,7 @@ public class PassengerTravelService {
         log.debug("Request to get PassengerTravel : {}", id);
         PassengerTravel travel = travelRepository.findOneById(id);
 
-        return (travel != null) ? new PassengerTravelDTO(travelRepository.findOneById(id)) : null;
+        return (travel != null) ? new PassengerTravelDTO(travel) : null;
     }
 
     /**
