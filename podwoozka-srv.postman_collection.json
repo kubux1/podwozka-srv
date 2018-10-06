@@ -528,6 +528,178 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "passengerTravel",
+			"item": [
+				{
+					"name": "passengerTravel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": null,\n  \"login\": \"bartek\",\n  \"startPlace\": \"Dom\",\n  \"endPlace\": \"Czyis Dom\",\n  \"firstName\": \"Maciej\",\n  \"lastName\": \"Topola\",\n  \"driverId\": 1,\n  \"pickUpDatetime\": \"2016-03-16T13:56:39.492\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/passenger/travels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"passenger",
+								"travels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "passenger_travel_id_1",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"login\": \"bartekChanged\",\n  \"startPlace\": \"DomChanged\",\n  \"endPlace\": \"Czyis DomChanged\",\n  \"firstName\": \"MaciejChanged\",\n  \"lastName\": \"TopolaChanged\",\n  \"driverId\": 3,\n  \"pickUpDatetime\": \"2018-03-16T13:56:39.492\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/passenger/travels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"passenger",
+								"travels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "passenger_travel_id_1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/passenger/travels/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"passenger",
+								"travels",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "passengerTravelsByLogin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/passenger/travels/?login=bartek&size=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"passenger",
+								"travels",
+								""
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": "bartek"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "passenger_travel_id_1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/passenger/travels/delete/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"passenger",
+								"travels",
+								"delete",
+								"14"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
