@@ -7,7 +7,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import pl.edu.podwozka.podwozkasrv.service.PassengerTravelService;
 import pl.edu.podwozka.podwozkasrv.service.dto.PassengerTravelDTO;
 import pl.edu.podwozka.podwozkasrv.web.rest.util.HeaderUtil;
@@ -45,7 +53,8 @@ public class PassengerTravelResource {
      * @return the ResponseEntity with status 400 (BAD REQUEST) if the travel has an id
      */
     @PostMapping("/travels")
-    public ResponseEntity<PassengerTravelDTO> createPassengerTravel(@Valid @RequestBody PassengerTravelDTO travelDTO) throws URISyntaxException {
+    public ResponseEntity<PassengerTravelDTO> createPassengerTravel(@Valid @RequestBody PassengerTravelDTO travelDTO)
+            throws URISyntaxException {
         log.debug("REST request to save PassengerTravel : {}", travelDTO);
 
         if (travelDTO.getId() != null) {
@@ -92,7 +101,8 @@ public class PassengerTravelResource {
         log.debug("REST request to update PassengerTravel : {}", id);
         PassengerTravelDTO existingPassengerTravel = travelService.findOne(id);
 
-        return existingPassengerTravel != null ? ResponseEntity.ok(existingPassengerTravel) : ResponseEntity.notFound().build();
+        return existingPassengerTravel != null ? ResponseEntity.ok(existingPassengerTravel) :
+                ResponseEntity.notFound().build();
     }
 
     /**
@@ -103,7 +113,8 @@ public class PassengerTravelResource {
      * @return the ResponseEntity with status 200 (OK) and the list of operations in body
      */
     @GetMapping("/travels")
-    public ResponseEntity<List<PassengerTravelDTO>> getPassengerTravel(Pageable pageable, @RequestParam(required = true) String login) {
+    public ResponseEntity<List<PassengerTravelDTO>> getPassengerTravel(Pageable pageable,
+                                                                       @RequestParam(required = true) String login) {
         log.debug("REST request to update PassengerTravel : {}", login);
         Page<PassengerTravelDTO> page = travelService.findAllByLogin(pageable, login);
 
