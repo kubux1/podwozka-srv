@@ -11,6 +11,12 @@ import pl.edu.podwozka.podwozkasrv.repository.TravelRepository;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
 import pl.edu.podwozka.podwozkasrv.service.mapper.TravelMapper;
 
+import java.util.Set;
+import java.util.HashSet;
+
+import pl.edu.podwozka.podwozkasrv.domain.User;
+import pl.edu.podwozka.podwozkasrv.repository.UserRepository;
+
 /**
  * Service class for managing users.
  */
@@ -22,10 +28,13 @@ public class TravelService {
 
     private final TravelRepository travelRepository;
 
+    private final UserRepository userRepository;
+
     private final TravelMapper travelMapper;
 
-    public TravelService(TravelRepository travelRepository, TravelMapper travelMapper) {
+    public TravelService(TravelRepository travelRepository, TravelMapper travelMapper, UserRepository userRepository) {
         this.travelRepository = travelRepository;
+        this.userRepository = userRepository;
         this.travelMapper = travelMapper;
     }
 
@@ -64,7 +73,7 @@ public class TravelService {
     @Transactional(readOnly = true)
     public Page<TravelDTO> findAllByLogin(Pageable pageable, String login) {
         log.debug("Request to get all travels");
-        return travelRepository.findAllByLogin(pageable, login).map(TravelDTO::new);
+        return travelRepository.findAllByDriverLogin(pageable, login).map(TravelDTO::new);
     }
 
     /**
@@ -89,5 +98,53 @@ public class TravelService {
     public void delete(Long id) {
         log.debug("Request to delete Travel : {}", id);
         travelRepository.deleteOneById(id);
+    }
+
+    /**
+     * Get all the travels matching passanger criterion.
+     *
+     * @param pageable the pagination information
+     * @param travelDTO the entity to match with
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<TravelDTO> findTravelsForPassenger(Pageable pageable, TravelDTO travelDTO) {
+        log.debug("Request to find travels matching passenger criterion");
+        Travel travel = travelMapper.travelDTOToTravel(travelDTO);
+        return travelRepository.findAllByStartPlaceAndEndPlaceAndPickUpDatetimeGreaterThanEqual(
+                pageable,
+                travel.getStartPlace(),
+                travel.getEndPlace(),
+                travel.getPickUpDatetime()).map(TravelDTO::new);
+    }
+
+    /**
+     * Sign up passenger for a travel.
+     *
+     * @param travelId of the travel
+     * @return the persisted entity
+     */
+    public void signUp(String passengerLogin, Long travelId) {
+        log.debug("Request to sign up for a Travel : {}", travelId);
+        Travel travel = travelRepository.findOneById(travelId);
+        Set<User> passengers = new HashSet<>();
+        userRepository.findOneByLogin(passengerLogin).ifPresent(user -> {
+            passengers.add(user);
+        });
+        travel.setPassengers(passengers);
+    }
+
+    /**
+     * Get all the travels for which passanger signed up.
+     *
+     * @param pageable the pagination information
+     * @param login of the passanger
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<TravelDTO> passengerFindAllByLogin(Pageable pageable, String login) {
+        log.debug("Request to find signed up travels by Passenger : {}", login);
+
+        return travelRepository.findAllWithPassengersByPassengersLogin(pageable, login).map(TravelDTO::new);
     }
 }

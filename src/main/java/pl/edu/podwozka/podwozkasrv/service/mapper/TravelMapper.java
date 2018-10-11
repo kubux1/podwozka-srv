@@ -36,7 +36,7 @@ public class TravelMapper {
             travel.setId(travelDTO.getId());
             travel.setStartPlace(travelDTO.getStartPlace());
             travel.setEndPlace(travelDTO.getEndPlace());
-            travel.setLogin(travelDTO.getLogin());
+            travel.setDriverLogin(travelDTO.getDriverLogin());
             travel.setFirstName(travelDTO.getFirstName());
             travel.setLastName(travelDTO.getLastName());
             travel.setPassengersCount(travelDTO.getPassengersCount());
