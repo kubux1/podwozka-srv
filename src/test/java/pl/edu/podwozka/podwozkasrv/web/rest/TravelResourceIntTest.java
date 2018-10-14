@@ -114,7 +114,7 @@ public class TravelResourceIntTest {
      */
     public static Travel createEntity() {
         Travel travel = new Travel();
-        travel.setLogin(DEFAULT_LOGIN);
+        travel.setDriverLogin(DEFAULT_LOGIN);
         travel.setStartPlace(DEFAULT_START_PLACE);
         travel.setEndPlace(DEFAULT_END_PLACE);
         travel.setFirstName(DEFAULT_FIRSTNAME);
@@ -141,7 +141,7 @@ public class TravelResourceIntTest {
         List<Travel> travelList = travelRepository.findAll();
         assertThat(travelList).hasSize(databaseSizeBeforeCreate + 1);
         Travel testTravel = travelList.get(travelList.size() - 1);
-        assertThat(testTravel.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(testTravel.getDriverLogin()).isEqualTo(DEFAULT_LOGIN);
         assertThat(testTravel.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
         assertThat(testTravel.getLastName()).isEqualTo(DEFAULT_LASTNAME);
         assertThat(testTravel.getStartPlace()).isEqualTo(DEFAULT_START_PLACE);
@@ -170,7 +170,7 @@ public class TravelResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllTravelsByLogin() throws Exception {
+    public void getAllTravelsByDriverLogin() throws Exception {
         // Initialize the database
         travelRepository.saveAndFlush(travel);
 
@@ -179,7 +179,7 @@ public class TravelResourceIntTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].login").value(hasItem(DEFAULT_LOGIN)))
+                .andExpect(jsonPath("$.[*].driverLogin").value(hasItem(DEFAULT_LOGIN)))
                 .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRSTNAME)))
                 .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LASTNAME)))
                 .andExpect(jsonPath("$.[*].startPlace").value(hasItem(DEFAULT_START_PLACE)))
@@ -202,7 +202,7 @@ public class TravelResourceIntTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.login").value(DEFAULT_LOGIN))
+                .andExpect(jsonPath("$.driverLogin").value(DEFAULT_LOGIN))
                 .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRSTNAME))
                 .andExpect(jsonPath("$.lastName").value(DEFAULT_LASTNAME))
                 .andExpect(jsonPath("$.startPlace").value(DEFAULT_START_PLACE))
@@ -229,7 +229,7 @@ public class TravelResourceIntTest {
         travelRepository.findById(travel.getId()).get();
         TravelDTO updatedTravel = new TravelDTO(travel);
 
-        updatedTravel.setLogin(UPDATED_LOGIN);
+        updatedTravel.setDriverLogin(UPDATED_LOGIN);
         updatedTravel.setStartPlace(UPDATED_START_PLACE);
         updatedTravel.setEndPlace(UPDATED_END_PLACE);
         updatedTravel.setFirstName(UPDATED_FIRSTNAME);
@@ -248,7 +248,7 @@ public class TravelResourceIntTest {
         assertThat(travelList).hasSize(databaseSizeBeforeUpdate);
 
         Travel testTravel = travelList.get(travelList.size() - 1);
-        assertThat(testTravel.getLogin()).isEqualTo(UPDATED_LOGIN);
+        assertThat(testTravel.getDriverLogin()).isEqualTo(UPDATED_LOGIN);
         assertThat(testTravel.getStartPlace()).isEqualTo(UPDATED_START_PLACE);
         assertThat(testTravel.getEndPlace()).isEqualTo(UPDATED_END_PLACE);
         assertThat(testTravel.getFirstName()).isEqualTo(UPDATED_FIRSTNAME);
@@ -298,7 +298,7 @@ public class TravelResourceIntTest {
     @Test
     public void testTraveltoTravelDTO() {
         Travel defaultTravel = new Travel();
-        defaultTravel.setLogin(DEFAULT_LOGIN);
+        defaultTravel.setDriverLogin(DEFAULT_LOGIN);
         defaultTravel.setStartPlace(DEFAULT_START_PLACE);
         defaultTravel.setEndPlace(DEFAULT_END_PLACE);
         defaultTravel.setFirstName(DEFAULT_FIRSTNAME);
@@ -308,7 +308,7 @@ public class TravelResourceIntTest {
 
         TravelDTO travelDTO = travelMapper.travelToTravelDTO(defaultTravel);
 
-        assertThat(travelDTO.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(travelDTO.getDriverLogin()).isEqualTo(DEFAULT_LOGIN);
         assertThat(travelDTO.getStartPlace()).isEqualTo(DEFAULT_START_PLACE);
         assertThat(travelDTO.getEndPlace()).isEqualTo(DEFAULT_END_PLACE);
         assertThat(travelDTO.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
@@ -321,7 +321,7 @@ public class TravelResourceIntTest {
     @Test
     public void testTravelDTOtoTravel() {
         TravelDTO travelDTO = new TravelDTO();
-        travelDTO.setLogin(DEFAULT_LOGIN);
+        travelDTO.setDriverLogin(DEFAULT_LOGIN);
         travelDTO.setStartPlace(DEFAULT_START_PLACE);
         travelDTO.setEndPlace(DEFAULT_END_PLACE);
         travelDTO.setFirstName(DEFAULT_FIRSTNAME);
@@ -331,7 +331,7 @@ public class TravelResourceIntTest {
 
         Travel travel = travelMapper.travelDTOToTravel(travelDTO);
 
-        assertThat(travel.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(travel.getDriverLogin()).isEqualTo(DEFAULT_LOGIN);
         assertThat(travel.getStartPlace()).isEqualTo(DEFAULT_START_PLACE);
         assertThat(travel.getEndPlace()).isEqualTo(DEFAULT_END_PLACE);
         assertThat(travel.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);

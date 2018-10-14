@@ -133,4 +133,59 @@ public class TravelResource {
         return ResponseEntity.ok().headers(HeaderUtil.createAlert("A travel is deleted with identifier ",
                 id.toString())).build();
     }
+
+    /**
+     * POST /travels/find : Returns travels matching a passenger criterion.
+     *
+     * @param pageable the pagination information
+     * @param travelDTO the entity to match with
+     * @return the ResponseEntity with status 200 (OK) and the list of operations in body
+     */
+    @PostMapping("/travels/findMatching")
+    public ResponseEntity<List<TravelDTO>> findTravel(Pageable pageable,
+                                                      @Valid @RequestBody TravelDTO travelDTO) {
+        log.debug("REST request to find travels matching passenger criterion");
+        Page<TravelDTO> page = travelService.findTravelsForPassenger(pageable, travelDTO);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+                String.format("/api/travels/find"));
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * POST /travels : Sign up a passenger for a travel.
+     *
+     * @param pageable the pagination information
+     * @param login of the passenger
+     * @param travelId to be signed up for
+     * @return the ResponseEntity with status 200 (OK) and the list of operations in body
+     */
+    @PostMapping("/travels/signUp")
+    public ResponseEntity<List<TravelDTO>> signUpForTravel(Pageable pageable,
+                                                     @RequestParam(required = true) String login,
+                                                     @RequestParam(required = true) Long travelId) {
+        log.debug("REST request to sign up for a Travel : {}", travelId);
+
+        boolean noErrors = travelService.signUp(login, travelId);
+        return noErrors ? new ResponseEntity(HttpStatus.OK) : 
+                new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * GET /travels : Get all the travels for which passanger signed up.
+     *
+     * @param pageable the pagination information
+     * @param login of the passenger
+     * @return the ResponseEntity with status 200 (OK) and the list of operations in body
+     */
+    @GetMapping("/travels/passenger")
+    public ResponseEntity<List<TravelDTO>> getPassengerTravels(Pageable pageable,
+                                                               @RequestParam(required = true) String login) {
+        log.debug("REST request to update Travel : {}", login);
+        Page<TravelDTO> page = travelService.passengerFindAllByLogin(pageable, login);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+                String.format("/api/travels?login=%b", login));
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }

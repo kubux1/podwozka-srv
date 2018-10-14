@@ -24,7 +24,7 @@ public class TravelDTO {
     @NotBlank
     @Size(min = 1, max = 50)
     @Column(length = 50, nullable = false)
-    private String login;
+    private String driverLogin;
 
     @NotBlank
     private String startPlace;
@@ -56,7 +56,7 @@ public class TravelDTO {
 
     public TravelDTO(Travel travel) {
         this.id = travel.getId();
-        this.login = travel.getLogin();
+        this.driverLogin = travel.getDriverLogin();
         this.startPlace = travel.getStartPlace();
         this.endPlace = travel.getEndPlace();
         this.firstName = travel.getFirstName();
@@ -67,7 +67,6 @@ public class TravelDTO {
         this.createdDate = travel.getCreatedDate();
         this.lastModifiedBy = travel.getLastModifiedBy();
         this.lastModifiedDate = travel.getLastModifiedDate();
-
     }
 
     @Override

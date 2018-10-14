@@ -18,6 +18,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import org.hibernate.annotations.BatchSize;
+
 @Getter
 @Setter
 @ToString
@@ -34,7 +41,7 @@ public class Travel extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
     @Column(length = 50, nullable = false)
-    private String login;
+    private String driverLogin;
 
     @JsonIgnore
     @NotNull
@@ -69,4 +76,13 @@ public class Travel extends AbstractAuditingEntity implements Serializable {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "pd_travel_user",
+            joinColumns = {@JoinColumn(name = "travel_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_login", referencedColumnName = "login")})
+    @BatchSize(size = 20)
+        private Set<User> passengers = new HashSet<>();
 }
