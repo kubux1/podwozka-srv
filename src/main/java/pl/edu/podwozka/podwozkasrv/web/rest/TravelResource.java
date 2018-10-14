@@ -141,7 +141,7 @@ public class TravelResource {
      * @param travelDTO the entity to match with
      * @return the ResponseEntity with status 200 (OK) and the list of operations in body
      */
-    @PostMapping("/travels/find")
+    @PostMapping("/travels/findMatching")
     public ResponseEntity<List<TravelDTO>> findTravel(Pageable pageable,
                                                       @Valid @RequestBody TravelDTO travelDTO) {
         log.debug("REST request to find travels matching passenger criterion");
@@ -166,8 +166,9 @@ public class TravelResource {
                                                      @RequestParam(required = true) Long travelId) {
         log.debug("REST request to sign up for a Travel : {}", travelId);
 
-        travelService.signUp(login, travelId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        boolean noErrors = travelService.signUp(login, travelId);
+        return noErrors ? new ResponseEntity(HttpStatus.OK) : 
+                new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**

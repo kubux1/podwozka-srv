@@ -124,14 +124,20 @@ public class TravelService {
      * @param travelId of the travel
      * @return the persisted entity
      */
-    public void signUp(String passengerLogin, Long travelId) {
+    public boolean signUp(String passengerLogin, Long travelId) {
         log.debug("Request to sign up for a Travel : {}", travelId);
-        Travel travel = travelRepository.findOneById(travelId);
-        Set<User> passengers = new HashSet<>();
-        userRepository.findOneByLogin(passengerLogin).ifPresent(user -> {
-            passengers.add(user);
-        });
-        travel.setPassengers(passengers);
+        try {
+            Travel travel = travelRepository.findOneById(travelId);
+            Set<User> passengers = new HashSet<>();
+            userRepository.findOneByLogin(passengerLogin).ifPresent(user -> {
+                passengers.add(user);
+            });
+            travel.setPassengers(passengers);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
