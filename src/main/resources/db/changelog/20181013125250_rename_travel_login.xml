@@ -10,13 +10,12 @@
     <property name="now" value="now()" dbms="mysql"/>
     <property name="autoIncrement" value="true"/>
 
-    <changeSet id="00000000000002" author="kubux1">
+    <changeSet id="20181013125250-1" author="kubux1">
 
-        <renameColumn columnDataType="String"
-                      newColumnName="login"
-                      oldColumnName="driver_login"
-                      remarks="A String"
-                      schemaName="public"
+        <renameColumn columnDataType="varchar(50)"
+                      newColumnName="driver_login"
+                      oldColumnName="login"
+                      schemaName="podwoozka"
                       tableName="travel"/>
 
     </changeSet>
