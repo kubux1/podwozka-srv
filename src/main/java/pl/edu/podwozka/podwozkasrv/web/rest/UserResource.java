@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.edu.podwozka.podwozkasrv.config.Constants;
 import pl.edu.podwozka.podwozkasrv.domain.User;
 import pl.edu.podwozka.podwozkasrv.repository.UserRepository;
@@ -159,5 +160,19 @@ public class UserResource {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
+    }
+
+    /**
+     * GET /users/:login : get the "login" user.
+     *
+     * @param login the login of the user to find
+     * @return the ResponseEntity with status 200 (OK) and with body the "login" user, or with status 404 (Not Found)
+     */
+    @GetMapping("/users/name")
+    public ResponseEntity<UserDTO> getUserName(@RequestParam(required = true) String login) {
+        log.debug("REST request to get User name : {}", login);
+        return (userService.getUserNameByLogin(login).map(UserDTO::new))
+                .map(response -> ResponseEntity.ok().body(response))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
