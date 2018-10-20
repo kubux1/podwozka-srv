@@ -24,7 +24,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 @RequestMapping("/api")
 public class CarResource {
 
-    private final Logger log = LoggerFactory.getLogger(TravelResource.class);
+    private final Logger log = LoggerFactory.getLogger(CarResource.class);
 
     private final CarService carService;
 

@@ -17,8 +17,6 @@ public class CarService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    private static final int ONE_DAY = 86400;
-
     private final CarRepository carRepository;
 
     private final CarMapper carMapper;

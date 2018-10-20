@@ -34,7 +34,7 @@ public class CarMapper {
             car.setColor(carDTO.getColor());
             car.setProductionYear(carDTO.getProductionYear());
             car.setRegistrationNumber(carDTO.getRegistrationNumber());
-            car.setMaxPassangersCapacity(carDTO.getMaxPassangersCapacity());
+            car.setMaxPassengersCapacity(carDTO.getMaxPassengersCapacity());
             return car;
         }
     }

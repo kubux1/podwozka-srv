@@ -24,7 +24,7 @@ import java.io.Serializable;
 @ToString
 @Entity
 @Table(name = "car")
-public class Car implements Serializable {
+public class Car extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,7 +59,7 @@ public class Car implements Serializable {
     private Long registrationNumber;
 
     @Column(name = "max_capacity", nullable = false)
-    private Long maxPassangersCapacity;
+    private Long maxPassengersCapacity;
 
     @Override
     public boolean equals(Object o) {

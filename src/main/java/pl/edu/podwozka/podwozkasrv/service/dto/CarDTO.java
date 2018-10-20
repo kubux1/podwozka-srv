@@ -37,7 +37,7 @@ public class CarDTO {
 
     private Long registrationNumber;
 
-    private Long maxPassangersCapacity;
+    private Long maxPassengersCapacity;
 
     public CarDTO() {
         // Empty constructor needed for Jackson.
@@ -51,7 +51,7 @@ public class CarDTO {
         this.color = car.getColor();
         this.productionYear = car.getProductionYear();
         this.registrationNumber = car.getRegistrationNumber();
-        this.maxPassangersCapacity = car.getMaxPassangersCapacity();
+        this.maxPassengersCapacity = car.getMaxPassengersCapacity();
     }
 
     @Override
