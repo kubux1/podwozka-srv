@@ -11,8 +11,7 @@
     <property name="autoIncrement" value="true"/>
 
     <changeSet id="20181013125250-1" author="kubux1">
-
-        <renameColumn columnDataType="varchar(50)"
+	<renameColumn columnDataType="varchar(50)"
                       newColumnName="driver_login"
                       oldColumnName="login"
                       schemaName="podwoozka"

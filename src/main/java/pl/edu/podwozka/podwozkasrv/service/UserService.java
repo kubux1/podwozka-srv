@@ -220,4 +220,17 @@ public class UserService {
                     log.debug("Changed password for User: {}", user);
                 });
     }
+
+    @Transactional(readOnly = true)
+    public Optional<User> getUserNameByLogin(String login) {
+        return Optional.of(userRepository
+                .findOneByLogin(login))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(user -> {
+                    User newUser = new User();
+                    newUser.setFirstName(user.getFirstName());
+                    return newUser;
+                });
+    }
 }

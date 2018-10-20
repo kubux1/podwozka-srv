@@ -144,7 +144,7 @@ public class TravelService {
      * Get all the travels for which passanger signed up.
      *
      * @param pageable the pagination information
-     * @param login of the passanger
+     * @param login of the passenger
      * @return the list of entities
      */
     @Transactional(readOnly = true)
