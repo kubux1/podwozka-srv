@@ -113,10 +113,17 @@ public class PassengerTravelResource {
      * @return the ResponseEntity with status 200 (OK) and the list of operations in body
      */
     @GetMapping("/travels")
-    public ResponseEntity<List<PassengerTravelDTO>> getPassengerTravel(Pageable pageable,
-                                                                       @RequestParam(required = true) String login) {
+    public ResponseEntity<List<PassengerTravelDTO>>
+    getPassengerTravel(Pageable pageable,
+                       @RequestParam(required = true) String login,
+                       @RequestParam(required = false) Long driverTravelId) {
         log.debug("REST request to update PassengerTravel : {}", login);
-        Page<PassengerTravelDTO> page = travelService.findAllByLogin(pageable, login);
+        Page<PassengerTravelDTO> page;
+        if (driverTravelId != null) {
+            page = travelService.findAllByDriverTravelId(pageable, driverTravelId);
+        } else {
+            page = travelService.findAllByLogin(pageable, login);
+        }
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
                 String.format("/api/travels?login=%b", login));

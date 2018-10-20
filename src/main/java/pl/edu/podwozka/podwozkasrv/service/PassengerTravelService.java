@@ -68,6 +68,20 @@ public class PassengerTravelService {
     }
 
     /**
+     * Get all the travels by id of driver travel.
+     *
+     * @param pageable the pagination information
+     * @param driverTravelId of the owner
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<PassengerTravelDTO> findAllByDriverTravelId(
+            Pageable pageable, Long driverTravelId) {
+        log.debug("Request to get all travels");
+        return travelRepository.findAllByDriverId(pageable, driverTravelId).map(PassengerTravelDTO::new);
+    }
+
+    /**
      * Get one travel by id.
      *
      * @param id the id of the entity
