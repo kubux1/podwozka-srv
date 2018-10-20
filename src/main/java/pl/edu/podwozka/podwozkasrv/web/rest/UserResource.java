@@ -163,10 +163,10 @@ public class UserResource {
     }
 
     /**
-     * GET /users/:login : get the "login" user.
+     * GET /users/name/:login : get the "name" user.
      *
      * @param login the login of the user to find
-     * @return the ResponseEntity with status 200 (OK) and with body the "login" user, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the "name" user, or with status 404 (Not Found)
      */
     @GetMapping("/users/name")
     public ResponseEntity<UserDTO> getUserName(@RequestParam(required = true) String login) {
