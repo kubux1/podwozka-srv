@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.edu.podwozka.podwozkasrv.config.Constants;
 import pl.edu.podwozka.podwozkasrv.domain.Place;
 import pl.edu.podwozka.podwozkasrv.repository.PlaceRepository;
 import pl.edu.podwozka.podwozkasrv.service.dto.PlaceDTO;
@@ -17,7 +16,7 @@ import java.util.Optional;
 @Service
 public class PlaceService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(PlaceService.class);
+    private final Logger log = LoggerFactory.getLogger(PlaceService.class);
 
     private final PlaceMapper mapper;
 
@@ -32,7 +31,7 @@ public class PlaceService {
         Place place = mapper.placeDTOToPlace(placeDTO);
         repository.save(place);
 
-        LOGGER.debug("Created Information for Place: {}", place);
+        log.debug("Created Information for Place: {}", place);
         return place;
     }
 
@@ -43,7 +42,7 @@ public class PlaceService {
                 .map(Optional::get)
                 .map(place -> {
                     place = mapper.placeDTOToPlace(placeDTO);
-                    LOGGER.debug("Changed Information for Place: {}", place);
+                    log.debug("Changed Information for Place: {}", place);
                     return place;
                 })
                 .map(PlaceDTO::new);
@@ -52,13 +51,13 @@ public class PlaceService {
     public void deletePlace(Long id) {
         repository.findOneById(id).ifPresent(place -> {
             repository.delete(place);
-            LOGGER.debug("Deleted Place: {}", place);
+            log.debug("Deleted Place: {}", place);
         });
     }
 
     @Transactional(readOnly = true)
     public Page<PlaceDTO> getAllPlaces(Pageable pageable) {
-        return repository.findAll(pageable, Constants.ANONYMOUS_USER).map(PlaceDTO::new);
+        return repository.findAll(pageable).map(PlaceDTO::new);
     }
 
     @Transactional(readOnly = true)

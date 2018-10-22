@@ -2,7 +2,6 @@ package pl.edu.podwozka.podwozkasrv.service.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.podwozka.podwozkasrv.domain.Address;
 import pl.edu.podwozka.podwozkasrv.domain.Place;
 import pl.edu.podwozka.podwozkasrv.service.dto.PlaceDTO;
 
