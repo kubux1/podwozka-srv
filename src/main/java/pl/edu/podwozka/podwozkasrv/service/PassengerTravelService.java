@@ -75,10 +75,10 @@ public class PassengerTravelService {
      * @return the list of entities
      */
     @Transactional(readOnly = true)
-    public Page<PassengerTravelDTO> findAllByDriverTravelId(
-            Pageable pageable, Long driverTravelId) {
+    public Page<PassengerTravelDTO> findAllByDriverTravelIdAndLogin(
+            Pageable pageable, Long driverTravelId, String login) {
         log.debug("Request to get all travels");
-        return travelRepository.findAllByDriverId(pageable, driverTravelId).map(PassengerTravelDTO::new);
+        return travelRepository.findAllByDriverIdAndLogin(pageable, driverTravelId, login).map(PassengerTravelDTO::new);
     }
 
     /**

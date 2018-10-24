@@ -11,7 +11,7 @@ public interface PassengerTravelRepository extends JpaRepository<PassengerTravel
 
     Page<PassengerTravel> findAllByLogin(Pageable pageable, String login);
 
-    Page<PassengerTravel> findAllByDriverId(Pageable pageable, Long driverId);
+    Page<PassengerTravel> findAllByDriverIdAndLogin(Pageable pageable, Long driverId, String login);
 
     PassengerTravel findOneById(Long id);
 

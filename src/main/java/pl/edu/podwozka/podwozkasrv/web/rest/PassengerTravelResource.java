@@ -120,7 +120,7 @@ public class PassengerTravelResource {
         log.debug("REST request to update PassengerTravel : {}", login);
         Page<PassengerTravelDTO> page;
         if (driverTravelId != null) {
-            page = travelService.findAllByDriverTravelId(pageable, driverTravelId);
+            page = travelService.findAllByDriverTravelIdAndLogin(pageable, driverTravelId, login);
         } else {
             page = travelService.findAllByLogin(pageable, login);
         }
