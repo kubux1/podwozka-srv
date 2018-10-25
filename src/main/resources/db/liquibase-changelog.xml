@@ -10,4 +10,5 @@
     <include file="changelog/20181013125250_rename_travel_login.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20181013125251_create_car_entity.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20181020164300_add_place_and_address.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/20181013125252_create_passengers_signed_for_travels.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -56,4 +56,26 @@ public class CarService {
         log.debug("Request to get Car : {}", login);
         return carRepository.findOneByDriverLogin(login);
     }
+
+    /**
+     * Get a car for other users than an owner of a car
+     *
+     * @param login of the owner for a car
+     * @return a car with limited info
+     */
+    @Transactional(readOnly = true)
+    public Optional<Car> findCarByDriverLoginRestrictedInfo(String login) {
+        log.debug("Request to get Car restricted info : {}", login);
+        return Optional.of(carRepository
+                .findOneByDriverLogin(login))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(car -> {
+                    Car carRestricted = new Car();
+                    carRestricted.setBrand(car.getBrand());
+                    carRestricted.setModel(car.getModel());
+                    carRestricted.setColor(car.getColor());
+                    return carRestricted;
+                });
+    }
 }
