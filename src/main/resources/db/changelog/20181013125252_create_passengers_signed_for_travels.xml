@@ -17,10 +17,6 @@
             <column name="user_login" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
-			<!-- AbstractAuditingEntity's columns -->
-            <column name="created_date" type="timestamp" defaultValueDate="${now}">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>
