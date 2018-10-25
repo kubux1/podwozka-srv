@@ -75,4 +75,18 @@ public class CarResource {
                 .map(response -> ResponseEntity.ok().body(response))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    /**
+     * GET /cars/restricted:login : get the car restricted info for other users than an owner of a car
+     *
+     * @param login the login of owner of a car.
+     * @return the ResponseEntity with status 200 (OK) and with restricted body car info, or with status 404 (Not Found).
+     */
+    @GetMapping("/cars/restricted")
+    public ResponseEntity<CarDTO> getCarRestricted(@RequestParam(required = true) String login) {
+        log.debug("REST request to get a Car restricted info owned by: {}", login);
+        return (carService.findCarByDriverLoginRestrictedInfo(login).map(CarDTO::new))
+                .map(response -> ResponseEntity.ok().body(response))
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
