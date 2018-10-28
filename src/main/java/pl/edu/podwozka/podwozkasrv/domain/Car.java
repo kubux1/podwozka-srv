@@ -56,7 +56,7 @@ public class Car extends AbstractAuditingEntity implements Serializable {
     private Long productionYear;
 
     @Column(name = "registration_number", nullable = false)
-    private Long registrationNumber;
+    private String registrationNumber;
 
     @Column(name = "max_capacity", nullable = false)
     private Long maxPassengersCapacity;

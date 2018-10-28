@@ -161,4 +161,18 @@ public class TravelService {
 
         return travelRepository.findAllWithPassengersByPassengersLogin(pageable, login).map(TravelDTO::new);
     }
+
+    /**
+     * Update travel info.
+     *
+     * @param id the id of the entity
+     * @return the entity
+     */
+    @Transactional(readOnly = true)
+    public TravelDTO updateTravelInfo(Long id) {
+        log.debug("Request to get Travel : {}", id);
+        Travel travel = travelRepository.findOneById(id);
+
+        return (travel != null) ? new TravelDTO(travelRepository.findOneById(id)) : null;
+    }
 }
