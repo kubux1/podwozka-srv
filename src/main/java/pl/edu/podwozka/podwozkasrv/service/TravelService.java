@@ -107,16 +107,17 @@ public class TravelService {
      * @param travelDTO the entity to match with
      * @return the list of entities
      */
-    // TODO: It will be replaced with new searching method
-//    public Page<TravelDTO> findTravelsForPassenger(Pageable pageable, TravelDTO travelDTO) {
-//        log.debug("Request to find travels matching passenger criterion");
-//        Travel travel = travelMapper.travelDTOToTravel(travelDTO);
-//        return travelRepository.findAllByStartPlaceAndEndPlaceAndPickUpDatetimeGreaterThanEqual(
-//                pageable,
-//                travel.getStartPlace(),
-//                travel.getEndPlace(),
-//                travel.getPickUpDatetime()).map(TravelDTO::new);
-//    }
+    public Page<TravelDTO> findTravelsForPassenger(Pageable pageable, TravelDTO travelDTO) {
+        log.debug("Request to find travels matching passenger criterion");
+        Travel travel = travelMapper.travelDTOToTravel(travelDTO);
+        return travelRepository.match(
+                pageable,
+                travel.getStartPlace().getLatitude(),
+                travel.getStartPlace().getLongitude(),
+                travel.getEndPlace().getLatitude(),
+                travel.getEndPlace().getLongitude(),
+                travel.getPickUpDatetime()).map(TravelDTO::new);
+    }
 
     /**
      * Sign up passenger for a travel.
