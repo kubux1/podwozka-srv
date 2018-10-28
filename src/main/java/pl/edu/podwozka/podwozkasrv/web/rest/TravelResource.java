@@ -165,7 +165,12 @@ public class TravelResource {
                                                      @RequestParam(required = true) String login,
                                                      @RequestParam(required = true) Long travelId) {
         log.debug("REST request to sign up for a Travel : {}", travelId);
-
+        if (travelService.findOne(travelId) == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        if (travelService.checkIfUserSignedForTheSameTrip(login, travelId)) {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
         boolean noErrors = travelService.signUp(login, travelId);
         return noErrors ? new ResponseEntity(HttpStatus.OK) : 
                 new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);

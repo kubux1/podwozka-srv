@@ -140,6 +140,14 @@ public class TravelService {
         }
     }
 
+    public boolean checkIfUserSignedForTheSameTrip(String passengerLogin, Long travelId) {
+        Travel travel = travelRepository.findOneWithPassengersByPassengersLoginAndId(passengerLogin, travelId);
+        if (travel == null) {
+            return false;
+        }
+            return true;
+    }
+
     /**
      * Get all the travels for which passanger signed up.
      *
