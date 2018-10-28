@@ -3,8 +3,8 @@ package pl.edu.podwozka.podwozkasrv.service.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import pl.edu.podwozka.podwozkasrv.domain.DomainConstants;
 import pl.edu.podwozka.podwozkasrv.domain.Place;
 
 @Getter
@@ -30,13 +30,17 @@ public class PlaceDTO {
         this.address = new AddressDTO(place.getAddress());
     }
 
+    public PlaceDTO() {
+        // Empty constructor needed for Jackson.
+    }
+
     @Override
     public boolean equals(Object o) {
-        return EqualsBuilder.reflectionEquals(this, o);
+        return DomainConstants.getEqualsMethodWithoutMetadataColumns(this, o);
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        return DomainConstants.getHashCodeMethodWithoutMetadataColumns(this);
     }
 }

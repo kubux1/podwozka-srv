@@ -26,11 +26,9 @@ public class TravelDTO {
     @Column(length = 50, nullable = false)
     private String driverLogin;
 
-    @NotBlank
-    private String startPlace;
+    private PlaceDTO startPlace;
 
-    @NotBlank
-    private String endPlace;
+    private PlaceDTO endPlace;
 
     @Size(max = 50)
     private String firstName;
@@ -57,8 +55,8 @@ public class TravelDTO {
     public TravelDTO(Travel travel) {
         this.id = travel.getId();
         this.driverLogin = travel.getDriverLogin();
-        this.startPlace = travel.getStartPlace();
-        this.endPlace = travel.getEndPlace();
+        this.startPlace = new PlaceDTO(travel.getStartPlace());
+        this.endPlace =  new PlaceDTO(travel.getEndPlace());
         this.firstName = travel.getFirstName();
         this.lastName = travel.getLastName();
         this.passengersCount = travel.getPassengersCount();
