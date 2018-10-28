@@ -35,7 +35,7 @@ public class CarDTO {
 
     private Long productionYear;
 
-    private Long registrationNumber;
+    private String registrationNumber;
 
     private Long maxPassengersCapacity;
 

@@ -26,7 +26,7 @@
             <column name="production_year" type="bigint">
 				<constraints nullable="false"/>
 			</column>
-            <column name="registration_number" type="bigint">
+            <column name="registration_number" type="varchar(50)">
 				<constraints nullable="false"/>
 			</column>
             <column name="max_capacity" type="bigint">
