@@ -141,17 +141,16 @@ public class TravelResource {
      * @param travelDTO the entity to match with
      * @return the ResponseEntity with status 200 (OK) and the list of operations in body
      */
-    // TODO: It will be replaced with new searching method
-//    @PostMapping("/travels/findMatching")
-//    public ResponseEntity<List<TravelDTO>> findTravel(Pageable pageable,
-//                                                      @Valid @RequestBody TravelDTO travelDTO) {
-//        log.debug("REST request to find travels matching passenger criterion");
-//        Page<TravelDTO> page = travelService.findTravelsForPassenger(pageable, travelDTO);
-//
-//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
-//                String.format("/api/travels/find"));
-//        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-//    }
+    @PostMapping("/travels/findMatching")
+    public ResponseEntity<List<TravelDTO>> findTravel(Pageable pageable,
+                                                      @Valid @RequestBody TravelDTO travelDTO) {
+        log.debug("REST request to find travels matching passenger criterion");
+        Page<TravelDTO> page = travelService.findTravelsForPassenger(pageable, travelDTO);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+                String.format("/api/travels/find"));
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
     /**
      * POST /travels : Sign up a passenger for a travel.
