@@ -3,8 +3,6 @@ package pl.edu.podwozka.podwozkasrv.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,11 +39,11 @@ public class Address extends AbstractAuditingEntity implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        return EqualsBuilder.reflectionEquals(this, o);
+        return DomainConstants.getEqualsMethodWithoutMetadataColumns(this, o);
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        return DomainConstants.getHashCodeMethodWithoutMetadataColumns(this);
     }
 }

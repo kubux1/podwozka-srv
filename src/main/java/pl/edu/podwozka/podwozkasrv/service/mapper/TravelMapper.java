@@ -1,5 +1,6 @@
 package pl.edu.podwozka.podwozkasrv.service.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.podwozka.podwozkasrv.domain.Travel;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
@@ -16,6 +17,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class TravelMapper {
+
+    @Autowired
+    private PlaceMapper placeMapper;
 
     public TravelDTO travelToTravelDTO(Travel travel) {
         return new TravelDTO(travel);
@@ -34,8 +38,8 @@ public class TravelMapper {
         } else {
             Travel travel = new Travel();
             travel.setId(travelDTO.getId());
-            travel.setStartPlace(travelDTO.getStartPlace());
-            travel.setEndPlace(travelDTO.getEndPlace());
+            travel.setStartPlace(placeMapper.placeDTOToPlace(travelDTO.getStartPlace()));
+            travel.setEndPlace(placeMapper.placeDTOToPlace(travelDTO.getEndPlace()));
             travel.setDriverLogin(travelDTO.getDriverLogin());
             travel.setFirstName(travelDTO.getFirstName());
             travel.setLastName(travelDTO.getLastName());
