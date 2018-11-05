@@ -15,6 +15,10 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
 
     Page<Travel> findAllByDriverLogin(Pageable pageable, String login);
 
+    Page<Travel> findAllByDriverLoginAndPickUpDatetimeBefore(Pageable pageable, String login, Instant time);
+
+    Page<Travel> findAllByDriverLoginAndPickUpDatetimeAfter(Pageable pageable, String login, Instant time);
+
     Travel findOneById(Long id);
 
     void deleteOneById(Long id);

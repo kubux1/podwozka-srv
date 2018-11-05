@@ -11,6 +11,7 @@ import pl.edu.podwozka.podwozkasrv.repository.TravelRepository;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
 import pl.edu.podwozka.podwozkasrv.service.mapper.TravelMapper;
 
+import java.time.Instant;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -74,6 +75,32 @@ public class TravelService {
     public Page<TravelDTO> findAllByLogin(Pageable pageable, String login) {
         log.debug("Request to get all travels");
         return travelRepository.findAllByDriverLogin(pageable, login).map(TravelDTO::new);
+    }
+
+    /**
+     * Get all the past travels by login.
+     *
+     * @param pageable the pagination information
+     * @param login of the owner
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<TravelDTO> findAllPastByLogin(Pageable pageable, String login, Instant time) {
+        log.debug("Request to get all travels");
+        return travelRepository.findAllByDriverLoginAndPickUpDatetimeBefore(pageable, login, time).map(TravelDTO::new);
+    }
+
+    /**
+     * Get all the coming travels by login.
+     *
+     * @param pageable the pagination information
+     * @param login of the owner
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<TravelDTO> findAllComingByLogin(Pageable pageable, String login, Instant time) {
+        log.debug("Request to get all travels");
+        return travelRepository.findAllByDriverLoginAndPickUpDatetimeAfter(pageable, login, time).map(TravelDTO::new);
     }
 
     /**

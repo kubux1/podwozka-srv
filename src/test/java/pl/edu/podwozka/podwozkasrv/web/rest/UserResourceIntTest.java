@@ -304,10 +304,6 @@ public class UserResourceIntTest {
         userDTO.setActivated(updatedUser.isActivated());
         userDTO.setImageUrl(UPDATED_IMAGEURL);
         userDTO.setLangKey(UPDATED_LANGKEY);
-        userDTO.setCreatedBy(updatedUser.getCreatedBy());
-        userDTO.setCreatedDate(updatedUser.getCreatedDate());
-        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
-        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
         userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc.perform(put("/api/users")
@@ -345,10 +341,6 @@ public class UserResourceIntTest {
         userDTO.setActivated(updatedUser.isActivated());
         userDTO.setImageUrl(UPDATED_IMAGEURL);
         userDTO.setLangKey(UPDATED_LANGKEY);
-        userDTO.setCreatedBy(updatedUser.getCreatedBy());
-        userDTO.setCreatedDate(updatedUser.getCreatedDate());
-        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
-        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
         userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc.perform(put("/api/users")
@@ -397,10 +389,6 @@ public class UserResourceIntTest {
         userDTO.setActivated(updatedUser.isActivated());
         userDTO.setImageUrl(updatedUser.getImageUrl());
         userDTO.setLangKey(updatedUser.getLangKey());
-        userDTO.setCreatedBy(updatedUser.getCreatedBy());
-        userDTO.setCreatedDate(updatedUser.getCreatedDate());
-        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
-        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
         userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc.perform(put("/api/users")
@@ -438,10 +426,6 @@ public class UserResourceIntTest {
         userDTO.setActivated(updatedUser.isActivated());
         userDTO.setImageUrl(updatedUser.getImageUrl());
         userDTO.setLangKey(updatedUser.getLangKey());
-        userDTO.setCreatedBy(updatedUser.getCreatedBy());
-        userDTO.setCreatedDate(updatedUser.getCreatedDate());
-        userDTO.setLastModifiedBy(updatedUser.getLastModifiedBy());
-        userDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
         userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         restUserMockMvc.perform(put("/api/users")
@@ -510,8 +494,6 @@ public class UserResourceIntTest {
         userDTO.setActivated(true);
         userDTO.setImageUrl(DEFAULT_IMAGEURL);
         userDTO.setLangKey(DEFAULT_LANGKEY);
-        userDTO.setCreatedBy(DEFAULT_LOGIN);
-        userDTO.setLastModifiedBy(DEFAULT_LOGIN);
         userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
 
         User user = userMapper.userDTOToUser(userDTO);
@@ -553,10 +535,6 @@ public class UserResourceIntTest {
         assertThat(userDTO.isActivated()).isEqualTo(true);
         assertThat(userDTO.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
         assertThat(userDTO.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
-        assertThat(userDTO.getCreatedBy()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
-        assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(userDTO.getLastModifiedDate()).isEqualTo(user.getLastModifiedDate());
         assertThat(userDTO.getAuthorities()).containsExactly(AuthoritiesConstants.USER);
         assertThat(userDTO.toString()).isNotNull();
     }
