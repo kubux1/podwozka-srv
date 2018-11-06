@@ -11,7 +11,6 @@ import pl.edu.podwozka.podwozkasrv.time.TimeUtil;
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Getter
@@ -42,14 +41,6 @@ public class PassengerTravelDTO {
 
     private LocalDateTime pickUpDatetime;
 
-    private String createdBy;
-
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
-
     public PassengerTravelDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -63,10 +54,6 @@ public class PassengerTravelDTO {
         this.lastName = travel.getLastName();
         this.driverId = travel.getDriverId();
         this.pickUpDatetime = TimeUtil.instantToLocalDateTime(travel.getPickUpDatetime());
-        this.createdBy = travel.getCreatedBy();
-        this.createdDate = travel.getCreatedDate();
-        this.lastModifiedBy = travel.getLastModifiedBy();
-        this.lastModifiedDate = travel.getLastModifiedDate();
 
     }
 
