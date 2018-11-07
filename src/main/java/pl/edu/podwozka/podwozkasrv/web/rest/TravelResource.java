@@ -26,6 +26,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -104,19 +105,55 @@ public class TravelResource {
     }
 
     /**
-     * GET /travels : Updates an existing Travel.
+     * GET /travels : Gets all travels by a login
      *
      * @param pageable the pagination information
      * @param login of the owner
      * @return the ResponseEntity with status 200 (OK) and the list of operations in body
      */
     @GetMapping("/travels")
-    public ResponseEntity<List<TravelDTO>> getTravel(Pageable pageable, @RequestParam(required = true) String login) {
+    public ResponseEntity<List<TravelDTO>> getTravels(Pageable pageable, @RequestParam(required = true) String login) {
         log.debug("REST request to update Travel : {}", login);
         Page<TravelDTO> page = travelService.findAllByLogin(pageable, login);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
                 String.format("/api/travels?login=%b", login));
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET /travels : Gets all past travels
+     *
+     * @param pageable the pagination information
+     * @param login of the owner
+     * @return the ResponseEntity with status 200 (OK) and the list of operations in body
+     */
+    @GetMapping("/travels/past")
+    public ResponseEntity<List<TravelDTO>> getPastTravels(Pageable pageable,
+                                                          @RequestParam(required = true) String login) {
+        log.debug("REST request to update Travel : {}", login);
+        Page<TravelDTO> page = travelService.findAllPastByLogin(pageable, login, Instant.now());
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+                String.format("/api/travels/past?login=%b", login));
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET /travels/coming : Gets all coming travels
+     *
+     * @param pageable the pagination information
+     * @param login of the owner
+     * @return the ResponseEntity with status 200 (OK) and the list of operations in body
+     */
+    @GetMapping("/travels/coming")
+    public ResponseEntity<List<TravelDTO>> getComingTravels(Pageable pageable,
+                                                            @RequestParam(required = true) String login) {
+        log.debug("REST request to update Travel : {}", login);
+        Page<TravelDTO> page = travelService.findAllComingByLogin(pageable, login, Instant.now());
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+                String.format("/api/travels/coming?login=%b", login));
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
