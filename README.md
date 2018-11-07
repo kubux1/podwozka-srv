@@ -20,6 +20,6 @@ file are disabled e.g. stop mysql server:
 
 Now you can run the app:
 
-    docker-compose -f docker/docker-compose.yml  up
+    docker-compose -f docker/docker-compose.yml up -d
 
 Link to the app: [http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/](http://localhost:8080/podwozka-srv-0.0.1-SNAPSHOT/).
