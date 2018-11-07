@@ -7,8 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.podwozka.podwozkasrv.domain.Travel;
+import pl.edu.podwozka.podwozkasrv.domain.TravelUser;
 import pl.edu.podwozka.podwozkasrv.repository.TravelRepository;
+import pl.edu.podwozka.podwozkasrv.repository.TravelUserRepository;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
+import pl.edu.podwozka.podwozkasrv.service.dto.TravelUserDTO;
 import pl.edu.podwozka.podwozkasrv.service.mapper.TravelMapper;
 
 import java.time.Instant;
@@ -17,6 +20,7 @@ import java.util.HashSet;
 
 import pl.edu.podwozka.podwozkasrv.domain.User;
 import pl.edu.podwozka.podwozkasrv.repository.UserRepository;
+import pl.edu.podwozka.podwozkasrv.service.mapper.TravelUserMapper;
 
 /**
  * Service class for managing users.
@@ -33,10 +37,17 @@ public class TravelService {
 
     private final TravelMapper travelMapper;
 
-    public TravelService(TravelRepository travelRepository, TravelMapper travelMapper, UserRepository userRepository) {
+    private final TravelUserMapper travelUserMapper;
+
+    private final TravelUserRepository travelUserRepository;
+
+    public TravelService(TravelRepository travelRepository, TravelMapper travelMapper, UserRepository userRepository,
+                         TravelUserRepository travelUserRepository, TravelUserMapper travelUserMapper) {
         this.travelRepository = travelRepository;
         this.userRepository = userRepository;
         this.travelMapper = travelMapper;
+        this.travelUserRepository = travelUserRepository;
+        this.travelUserMapper = travelUserMapper;
     }
 
 
@@ -160,6 +171,10 @@ public class TravelService {
             userRepository.findOneByLogin(passengerLogin).ifPresent(user -> {
                 passengers.add(user);
             });
+            for (User passenger : travel.getPassengers()) {
+                // to don't remove another passengers from travel
+                passengers.add(passenger);
+            }
             travel.setPassengers(passengers);
             return true;
         } catch (Exception e) {
@@ -188,5 +203,50 @@ public class TravelService {
         log.debug("Request to find signed up travels by Passenger : {}", login);
 
         return travelRepository.findAllWithPassengersByPassengersLogin(pageable, login).map(TravelDTO::new);
+    }
+
+    /**
+     * Get all the travels for which passanger signed up.
+     *
+     * @param pageable the pagination information
+     * @param travelId travel id
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<TravelUserDTO> findAcceptanceByTravelId(Pageable pageable, Long travelId) {
+        log.debug("Request to find signed up travels by id : {}", travelId);
+
+        return travelUserRepository.findAllByTravelId(pageable, travelId).map(TravelUserDTO::new);
+    }
+
+    /**
+     * Save a acceptance.
+     *
+     * @param travelId travel ID
+     * @param login passenger login
+     * @return the persisted entity
+     */
+    public TravelUserDTO changeAcceptanceStatusByTravelIdAndLogin(Long travelId, String login, boolean userAccepted) {
+        TravelUser travelUser = travelUserRepository.findFirstByTravelIdAndUserLogin(travelId, login);
+        if (travelUser != null) {
+            travelUser.setUserAccepted(userAccepted);
+            return new TravelUserDTO(travelUserRepository.save(travelUser));
+        }
+        return null;
+    }
+
+
+    /**
+     * Find a acceptance.
+     *
+     * @param travelId travel ID
+     * @param login passenger login
+     * @return the persisted entity
+     */
+    public TravelUserDTO findOneAcceptance(Long travelId, String login) {
+        TravelUser travelUser = travelUserRepository.findFirstByTravelIdAndUserLogin(travelId, login);
+
+        return (travelUser != null) ?
+                new TravelUserDTO(travelUserRepository.findFirstByTravelIdAndUserLogin(travelId, login)) : null;
     }
 }

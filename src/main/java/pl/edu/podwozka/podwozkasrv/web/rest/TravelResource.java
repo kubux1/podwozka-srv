@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.podwozka.podwozkasrv.service.TravelService;
 import pl.edu.podwozka.podwozkasrv.service.dto.TravelDTO;
+import pl.edu.podwozka.podwozkasrv.service.dto.TravelUserDTO;
 import pl.edu.podwozka.podwozkasrv.web.rest.util.HeaderUtil;
 import pl.edu.podwozka.podwozkasrv.web.rest.util.PaginationUtil;
 
@@ -228,5 +229,50 @@ public class TravelResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
                 String.format("/api/travels?login=%b", login));
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+
+    /**
+     * GET /travels : Get all the travels for which passanger signed up.
+     *
+     * @param pageable the pagination information
+     * @param login of the passenger
+     * @return the ResponseEntity with status 200 (OK) and the list of operations in body
+     */
+    @GetMapping("/travels/signedUpPassenger")
+    public ResponseEntity<List<TravelUserDTO>> getPassengerByTravelId(Pageable pageable,
+                                                               @RequestParam(required = true) String login,
+                                                                  @RequestParam(required = true) Long travelId) {
+        log.debug("REST request to update Travel : {}", login);
+        Page<TravelUserDTO> page = travelService.findAcceptanceByTravelId(pageable, travelId);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+                String.format("/api/travels?login=%b", login));
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+
+    /**
+     * PUT /travels : Updates an existing Travel.
+     *
+     * @param travelUserDTO the travel to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated travel
+     * @return the ResponseEntity with status 404 (NOT_FOUND) if there is no travel with such id
+     */
+    @PutMapping("/travels/signedUpPassenger")
+    public ResponseEntity<TravelUserDTO> updateAcceptance(@Valid @RequestBody TravelUserDTO travelUserDTO) {
+        log.debug("REST request to update Travel : {}", travelUserDTO);
+
+        TravelUserDTO updatedTravelUser = travelService.findOneAcceptance(travelUserDTO.getTravelId(),
+                travelUserDTO.getUserLogin());
+        if (updatedTravelUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        updatedTravelUser = travelService.changeAcceptanceStatusByTravelIdAndLogin(travelUserDTO.getTravelId(),
+                travelUserDTO.getUserLogin(),
+                travelUserDTO.isUserAccepted());
+
+        return ResponseEntity.ok(updatedTravelUser);
     }
 }
