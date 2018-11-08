@@ -198,8 +198,7 @@ public class TravelResource {
      * @return the ResponseEntity with status 200 (OK) and the list of operations in body
      */
     @PostMapping("/travels/signUp")
-    public ResponseEntity<List<TravelDTO>> signUpForTravel(Pageable pageable,
-                                                     @RequestParam(required = true) String login,
+    public ResponseEntity<Void> signUpForTravel(@RequestParam(required = true) String login,
                                                      @RequestParam(required = true) Long travelId) {
         log.debug("REST request to sign up for a Travel : {}", travelId);
         if (travelService.findOne(travelId) == null) {
