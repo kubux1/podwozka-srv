@@ -32,7 +32,7 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
             "AND ABS(p.longitude - :longitude) <= 0.05 " +
             "AND ABS(p2.latitude - :latitude2) <= 0.05 " +
             "AND ABS(p2.longitude - :longitude2) <= 0.05 " +
-            "AND TIMEDIFF(t.pick_up_datetime, :datetime) < \"00:30:00\"",
+            "AND TIMEDIFF(t.pick_up_datetime, :datetime) < \"23:00:00\"",
             nativeQuery = true)
     Page<Travel> match(Pageable pageable,
                        @Param("latitude") Double latitude,
