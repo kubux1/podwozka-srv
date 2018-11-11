@@ -98,7 +98,7 @@ public class TravelService {
     @Transactional(readOnly = true)
     public Page<TravelDTO> findAllPastByLogin(Pageable pageable, String login, Instant time) {
         log.debug("Request to get all travels");
-        return travelRepository.findAllWithPassengersByPassengersLoginAndPickUpDatetimeBefore(pageable, login,
+        return travelRepository.findAllByDriverLoginAndPickUpDatetimeBefore(pageable, login,
                 time).map(TravelDTO::new);
     }
 
@@ -111,6 +111,34 @@ public class TravelService {
      */
     @Transactional(readOnly = true)
     public Page<TravelDTO> findAllComingByLogin(Pageable pageable, String login, Instant time) {
+        log.debug("Request to get all travels");
+        return travelRepository.findAllByDriverLoginAndPickUpDatetimeAfter(pageable, login,
+                time).map(TravelDTO::new);
+    }
+
+    /**
+     * Get all the past travels by login.
+     *
+     * @param pageable the pagination information
+     * @param login of the owner
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<TravelDTO> findAllForPassengerPastByLogin(Pageable pageable, String login, Instant time) {
+        log.debug("Request to get all travels");
+        return travelRepository.findAllWithPassengersByPassengersLoginAndPickUpDatetimeBefore(pageable, login,
+                time).map(TravelDTO::new);
+    }
+
+    /**
+     * Get all the coming travels by login.
+     *
+     * @param pageable the pagination information
+     * @param login of the owner
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<TravelDTO> findAllForPassengerComingByLogin(Pageable pageable, String login, Instant time) {
         log.debug("Request to get all travels");
         return travelRepository.findAllWithPassengersByPassengersLoginAndPickUpDatetimeAfter(pageable, login,
                 time).map(TravelDTO::new);
@@ -219,6 +247,20 @@ public class TravelService {
         log.debug("Request to find signed up travels by id : {}", travelId);
 
         return travelUserRepository.findAllByTravelId(pageable, travelId).map(TravelUserDTO::new);
+    }
+
+    /**
+     * Get all the travels for which passanger signed up.
+     *
+     * @param pageable the pagination information
+     * @param login Passenger's login
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<TravelUserDTO> findAcceptanceByPassenger(Pageable pageable, String login) {
+        log.debug("Request to find signed up travels by id : {}", login);
+
+        return travelUserRepository.findAllByUserLogin(pageable, login).map(TravelUserDTO::new);
     }
 
     /**

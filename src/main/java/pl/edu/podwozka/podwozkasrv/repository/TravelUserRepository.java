@@ -11,5 +11,7 @@ public interface TravelUserRepository extends JpaRepository<TravelUser, String> 
 
     Page<TravelUser> findAllByTravelId(Pageable pageable, Long travelId);
 
+    Page<TravelUser> findAllByUserLogin(Pageable pageable, String login);
+
     TravelUser findFirstByTravelIdAndUserLogin(Long travelId, String login);
 }

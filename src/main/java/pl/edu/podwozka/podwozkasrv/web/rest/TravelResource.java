@@ -159,6 +159,42 @@ public class TravelResource {
     }
 
     /**
+     * GET /travels/passenger/past : Gets all past travels for passenger
+     *
+     * @param pageable the pagination information
+     * @param login of the owner
+     * @return the ResponseEntity with status 200 (OK) and the list of operations in body
+     */
+    @GetMapping("/travels/passenger/past")
+    public ResponseEntity<List<TravelDTO>> getPastPassengerTravels(Pageable pageable,
+                                                          @RequestParam(required = true) String login) {
+        log.debug("REST request to update Travel : {}", login);
+        Page<TravelDTO> page = travelService.findAllForPassengerPastByLogin(pageable, login, Instant.now());
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+                String.format("/api/travels/past?login=%b", login));
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET /travels/passenger/coming : Gets all coming travels for passenger
+     *
+     * @param pageable the pagination information
+     * @param login of the owner
+     * @return the ResponseEntity with status 200 (OK) and the list of operations in body
+     */
+    @GetMapping("/travels/passenger/coming")
+    public ResponseEntity<List<TravelDTO>> getComingPassengerTravels(Pageable pageable,
+                                                            @RequestParam(required = true) String login) {
+        log.debug("REST request to update Travel : {}", login);
+        Page<TravelDTO> page = travelService.findAllForPassengerComingByLogin(pageable, login, Instant.now());
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+                String.format("/api/travels/coming?login=%b", login));
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
      * DELETE /travels/{id} : delete the "id" Travel.
      *
      * @param id the id of the travel to delete
@@ -243,8 +279,28 @@ public class TravelResource {
     public ResponseEntity<List<TravelUserDTO>> getPassengerByTravelId(Pageable pageable,
                                                                @RequestParam(required = true) String login,
                                                                   @RequestParam(required = true) Long travelId) {
-        log.debug("REST request to update Travel : {}", login);
+        log.debug("REST request to find Acceptance : {}", login);
         Page<TravelUserDTO> page = travelService.findAcceptanceByTravelId(pageable, travelId);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
+                String.format("/api/travels?login=%b", login));
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+
+    /**
+     * GET /travels : Get all the travels for which passanger signed up.
+     *
+     * @param pageable the pagination information
+     * @param login of the passenger
+     * @return the ResponseEntity with status 200 (OK) and the list of operations in body
+     */
+    @GetMapping("/travels/signedUpTravels")
+    public ResponseEntity<List<TravelUserDTO>> getPassengerByTravelId(Pageable pageable,
+                                                                      @RequestParam(required = true) String login,
+                                                                      @RequestParam(required = true) String passenger) {
+        log.debug("REST request to find Acceptance : {}", login);
+        Page<TravelUserDTO> page = travelService.findAcceptanceByPassenger(pageable, passenger);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,
                 String.format("/api/travels?login=%b", login));
