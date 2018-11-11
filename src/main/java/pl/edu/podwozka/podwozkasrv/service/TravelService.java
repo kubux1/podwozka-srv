@@ -98,7 +98,8 @@ public class TravelService {
     @Transactional(readOnly = true)
     public Page<TravelDTO> findAllPastByLogin(Pageable pageable, String login, Instant time) {
         log.debug("Request to get all travels");
-        return travelRepository.findAllByDriverLoginAndPickUpDatetimeBefore(pageable, login, time).map(TravelDTO::new);
+        return travelRepository.findAllWithPassengersByPassengersLoginAndPickUpDatetimeBefore(pageable, login,
+                time).map(TravelDTO::new);
     }
 
     /**
@@ -111,7 +112,8 @@ public class TravelService {
     @Transactional(readOnly = true)
     public Page<TravelDTO> findAllComingByLogin(Pageable pageable, String login, Instant time) {
         log.debug("Request to get all travels");
-        return travelRepository.findAllByDriverLoginAndPickUpDatetimeAfter(pageable, login, time).map(TravelDTO::new);
+        return travelRepository.findAllWithPassengersByPassengersLoginAndPickUpDatetimeAfter(pageable, login,
+                time).map(TravelDTO::new);
     }
 
     /**
