@@ -32,7 +32,7 @@ public class TravelUser extends AbstractAuditingEntity implements Serializable {
     private Long travelId;
 
     @Size(max = 50)
-    @Column(name = "user_login", length = 50)
+    @Column(name = "user_login")
     private String userLogin;
 
     @Column(name = "user_accepted")
