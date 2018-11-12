@@ -45,6 +45,14 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
     Page<Travel> findAllWithPassengersByPassengersLogin(Pageable pageable, String login);
 
     @EntityGraph(attributePaths = "passengers")
+    Page<Travel> findAllWithPassengersByPassengersLoginAndPickUpDatetimeBefore(Pageable pageable, String login,
+                                                                               Instant time);
+
+    @EntityGraph(attributePaths = "passengers")
+    Page<Travel> findAllWithPassengersByPassengersLoginAndPickUpDatetimeAfter(Pageable pageable, String login,
+                                                                               Instant time);
+
+    @EntityGraph(attributePaths = "passengers")
     Travel findOneWithPassengersByPassengersLoginAndId(String login, Long id);
 
 }
