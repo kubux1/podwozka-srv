@@ -236,15 +236,21 @@ public class TravelResource {
      */
     @PostMapping("/travels/signUp")
     public ResponseEntity<Void> signUpForTravel(@RequestParam(required = true) String login,
-                                                     @RequestParam(required = true) Long travelId) {
+                                                @RequestParam(required = true) Long travelId,
+                                                @RequestParam(required = true) String startPlace,
+                                                @RequestParam(required = true) String endPlace,
+                                                @RequestParam(required = true) String pickUpDatetime) {
         log.debug("REST request to sign up for a Travel : {}", travelId);
+        boolean noErrors = false;
         if (travelService.findOne(travelId) == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         if (travelService.checkIfUserSignedForTheSameTrip(login, travelId)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
-        boolean noErrors = travelService.signUp(login, travelId);
+        if (travelService.signUp(login, travelId)) {
+            noErrors = travelService.addFields(login, travelId, startPlace, endPlace, pickUpDatetime);
+        }
         return noErrors ? new ResponseEntity(HttpStatus.OK) : 
                 new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }

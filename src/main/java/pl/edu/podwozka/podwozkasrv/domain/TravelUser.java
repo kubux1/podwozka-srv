@@ -38,6 +38,15 @@ public class TravelUser extends AbstractAuditingEntity implements Serializable {
     @Column(name = "user_accepted")
     private boolean userAccepted;
 
+    @Column(name = "passenger_start_place", columnDefinition  = "Default")
+    private String startPlace;
+
+    @Column(name = "passenger_end_place", columnDefinition  = "Default")
+    private String endPlace;
+
+    @Column(name = "passenger_pick_up_datetime")
+    private String pickUpDateTime;
+
     @Override
     public boolean equals(Object o) {
         return EqualsBuilder.reflectionEquals(this, o);

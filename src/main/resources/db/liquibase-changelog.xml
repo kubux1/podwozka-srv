@@ -13,4 +13,5 @@
 	<include file="changelog/20181013125252_create_passengers_signed_for_travels.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20181028125250_add_accepted_field_to_travel_user.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20181028164300_add_place_to_travel.xml" relativeToChangelogFile="true"/>
+	<include file="changelog/20181028164301_add_passenger_travel_fields_to_travel_user.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

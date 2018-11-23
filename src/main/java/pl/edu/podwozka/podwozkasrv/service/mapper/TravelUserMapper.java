@@ -31,6 +31,9 @@ public class TravelUserMapper {
             travelUser.setTravelId(travelUserDTO.getTravelId());
             travelUser.setUserLogin(travelUserDTO.getUserLogin());
             travelUser.setUserAccepted(travelUserDTO.isUserAccepted());
+            travelUser.setStartPlace(travelUserDTO.getStartPlace());
+            travelUser.setEndPlace(travelUserDTO.getEndPlace());
+            travelUser.setPickUpDateTime(travelUserDTO.getPickUpDateTime());
             return travelUser;
         }
     }

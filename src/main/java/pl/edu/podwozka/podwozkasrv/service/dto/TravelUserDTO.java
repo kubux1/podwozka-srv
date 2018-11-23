@@ -19,11 +19,19 @@ public class TravelUserDTO {
 
     private boolean userAccepted;
 
+    private String startPlace;
+
+    private String endPlace;
+
+    private String pickUpDateTime;
+
     public TravelUserDTO(TravelUser travelUser) {
         this.travelId = travelUser.getTravelId();
         this.userLogin = travelUser.getUserLogin();
-
         this.userAccepted = travelUser.isUserAccepted();
+        this.startPlace = travelUser.getStartPlace();
+        this.endPlace = travelUser.getEndPlace();
+        this.pickUpDateTime = travelUser.getPickUpDateTime();
     }
 
     public TravelUserDTO() {

@@ -293,4 +293,26 @@ public class TravelService {
         return (travelUser != null) ?
                 new TravelUserDTO(travelUserRepository.findFirstByTravelIdAndUserLogin(travelId, login)) : null;
     }
+
+    /**
+     * Add other fields in a travel user table.
+     *
+     * @param travelId travel ID
+     * @param passengerLogin passenger login
+     * @param startPlace passenger start place
+     * @param endPlace passenger end place
+     * @param pickUpDateTime passenger pick up date and time
+     * @return true or false
+     */
+    public boolean addFields(String passengerLogin, Long travelId, String startPlace, String endPlace,
+                             String pickUpDateTime) {
+        TravelUser travelUser = travelUserRepository.findFirstByTravelIdAndUserLogin(travelId, passengerLogin);
+        if (travelUser != null) {
+            travelUser.setStartPlace(startPlace);
+            travelUser.setEndPlace(endPlace);
+            travelUser.setPickUpDateTime(pickUpDateTime);
+            return true;
+        }
+        return false;
+    }
 }

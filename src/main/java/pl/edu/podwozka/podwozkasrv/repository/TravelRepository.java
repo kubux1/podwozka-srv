@@ -54,5 +54,4 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
 
     @EntityGraph(attributePaths = "passengers")
     Travel findOneWithPassengersByPassengersLoginAndId(String login, Long id);
-
 }
